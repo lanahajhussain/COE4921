@@ -153,7 +153,7 @@ t.fit_on_texts(X)
 vocab_size = len(t.word_index) + 1
 
 
-stemmed=light_stem(t)
+# stemmed=light_stem(t)
 
 
 # integer encode the documents
