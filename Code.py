@@ -173,7 +173,7 @@ f = open('wiki.ar.vec',encoding='utf-8')
 for line in f:
     values = line.split()
     word = values[0]
-    coefs = asarray(values[1:],dtype='float32')
+    coefs = asarray(values[1:])
     embeddings_index[word] = coefs
 f.close()
 
