@@ -180,14 +180,14 @@ def load_vectors(fname):
 data=load_vectors('wiki.ar.vec')
 
 
-print('Loaded %s word vectors.' % len(embeddings_index))
+print('Loaded %s word vectors.' % len(data))
 
 
 # create a weight matrix for words in training docs
 embedding_matrix = zeros((vocab_size, 301))
 print(embedding_matrix)
 for word, i in t.word_index.items():
-    embedding_vector = embeddings_index.get(word)
+    embedding_vector = data.get(word)
     if embedding_vector is not None:
         embedding_matrix[i] = embedding_vector
 
