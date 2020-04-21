@@ -6,6 +6,7 @@ import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np 
 
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
@@ -166,28 +167,38 @@ max_length = 4
 padded_docs = pad_sequences(encoded_docs, maxlen=max_length, padding='post')
 print(padded_docs)
 
-
-import io
-
-def load_vectors(fname):
-    fin = io.open(fname, 'r', encoding='utf-8', newline='\n', errors='ignore')
-    n, d = map(int, fin.readline().split())
-    data = {}
-    for line in fin:
-        tokens = line.rstrip().split(' ')
-        data[tokens[0]] = map(float, tokens[1:])
-    return data
-data=load_vectors('wiki.ar.vec')
+# load the whole embedding into memory
+embeddings_index = dict()
+f = open('wiki.ar.vec',encoding='utf-8')
+for line in f:
+    values = line.split()
+    word = values[0]
+    coefs = asarray(values[1:],dtype='float32')
+    embeddings_index[word] = coefs
+f.close()
 
 
-print('Loaded %s word vectors.' % len(data))
+# import io
+
+# def load_vectors(fname):
+#     fin = io.open(fname, 'r', encoding='utf-8', newline='\n', errors='ignore')
+#     n, d = map(int, fin.readline().split())
+#     data = {}
+#     for line in fin:
+#         tokens = line.rstrip().split(' ')
+#         data[tokens[0]] = map(float, tokens[1:])
+#     return data
+# data=load_vectors('wiki.ar.vec')
+
+
+print('Loaded %s word vectors.' % len(embeddings_index))
 
 
 # create a weight matrix for words in training docs
 embedding_matrix = zeros((vocab_size, 301))
 print(embedding_matrix)
 for word, i in t.word_index.items():
-    embedding_vector = data.get(word)
+    embedding_vector = embeddings_index.get(word)
     if embedding_vector is not None:
         embedding_matrix[i] = embedding_vector
 
