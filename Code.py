@@ -207,11 +207,11 @@ docs=np.asarray(padded_docs)
 print("ho")
 print(docs)
 print(padded_docs)
-print(labels)
-labelss=np.asarray(labels)
+print(Y)
+labelss=np.asarray(Y)
 model.fit(docs, Y, epochs=50, verbose=0)
 # evaluate the model
-loss, accuracy = model.evaluate(padded_docs, labels, verbose=0)
+loss, accuracy = model.evaluate(padded_docs, Y, verbose=0)
 print('Accuracy: %f' % (accuracy*100))
 
 
