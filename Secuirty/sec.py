@@ -1,7 +1,33 @@
+# ------------------------------------------------------------- #
+# ------------------------- IMPORTING ------------------------- #
+# ------------------------------------------------------------- #
 import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import numpy as np
+
+from keras.models import Sequential
+from keras import layers
+from keras.layers.core import Dense
+from keras.layers import GlobalAveragePooling2D
+from keras.models import Model
+from keras.optimizers import SGD
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+
+
+#########ROC#######
+from scipy import interp
+from itertools import cycle
+import matplotlib.pyplot as plt
+from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import precision_recall_curve, roc_curve
+
+# ------------------------------------------------------------- #
+# ------------------- Data Pre-processing---------------------- #
+# ------------------------------------------------------------- #
 
 df_intrusion = pd.read_csv('Train_data.csv')
 
@@ -50,19 +76,13 @@ Y_train = arr_train[:,41]
 X_test = arr_test[:,0:41]
 Y_test = arr_test[:,41]
 
-
+# ------------------------------------------------------------- #
+# ---------------------- Encoding Data ------------------------- #
+# ------------------------------------------------------------- #
 # Prepare Y values for one-hot encoding
 
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import np_utils
-
-# # encode class values as integers
-# encoder = LabelEncoder()
-# encoder.fit(X_train[:])
-# encoded_X_train= encoder.transform(X_train)
-# # convert integers to dummy variables (i.e. one hot encoded)
-# dummy_X_train = np_utils.to_categorical(encoded_X_train)
-
 
 # encode class values as integers
 encoder = LabelEncoder()
@@ -79,18 +99,12 @@ encoded_Y_test= encoder.transform(Y_test)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
-from keras.models import Sequential
-from keras import layers
-from keras.layers.core import Dense
-from keras.layers import GlobalAveragePooling2D
-from keras.models import Model
-from keras.optimizers import SGD
-from keras.applications import inception_v3
-from keras.applications.inception_v3 import InceptionV3
-from keras.applications.inception_v3 import preprocess_input as inception_v3_preprocessor
-import keras
-from keras.models import Sequential
-from keras.layers import Dense
+
+# ------------------------------------------------------------- #
+# ---------------------- Create Model ------------------------- #
+# ------------------------------------------------------------- #
+num_epochs=50
+batch_size=32
 
 # define the keras model
 model = Sequential()
@@ -102,14 +116,19 @@ model.add(Dense(5, activation = 'softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 
-history = model.fit(X_train, dummy_y_train, validation_split=0.25, epochs=50, batch_size=32, verbose=1)
+history = model.fit(X_train, dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+
+# ------------------------------------------------------------- #
+# ----------------- Model Visualization------------------------ #
+# ------------------------------------------------------------- #
 
 from keras.utils import plot_model
-import pydotplus
-from keras.utils.vis_utils import model_to_dot
-keras.utils.vis_utils.pydot = pydot
 plot_model(model, to_file='model.png', show_shapes=True,)
 
+
+# ------------------------------------------------------------- #
+# ----------------- Performance Metrics------------------------ #
+# ------------------------------------------------------------- #
 
 predictions=model.predict(X_test, batch_size=32)
 print(predictions)
@@ -121,7 +140,136 @@ print(classification_report(dummy_y_Test.argmax(axis=1),
                             predictions.argmax(axis=1)))
 
 
-from sklearn.metrics import confusion_matrix
 
-confusion_matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
-print(confusion_matrix)
+# ------------------------------------------------------------- #
+# ----------------- Confusion Matrix--------------------------- #
+# ------------------------------------------------------------- #
+class_names=['normal','dos','probe','u2r','r2l']
+# Plot non-normalized confusion matrix
+from sklearn.metrics import confusion_matrix
+import seaborn as sn
+import pandas as pd
+import matplotlib.pyplot as plt
+
+matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
+print(matrix)
+
+plt.figure(5)
+
+df_cm = pd.DataFrame(matrix,  index = [i for i in class_names],
+                  columns = [i for i in class_names])
+plt.figure(figsize=(10,7))
+sn.set(font_scale=1.4) # for label size
+sn.heatmap(df_cm, annot=True, annot_kws={"size": 16}) # font size
+
+plt.savefig('conf.png')
+
+# ------------------------------------------------------------- #
+# ----------------------- ROC CURVE --------------------------- #
+# ------------------------------------------------------------- #
+
+# Plot linewidth.
+lw = 2
+n_classes = 3
+
+# Compute ROC curve and ROC area for each class
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+for i in range(n_classes):
+    fpr[i], tpr[i], _ = roc_curve(dummy_y_Test[:, i], predictions[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+# Compute micro-average ROC curve and ROC area
+fpr["micro"], tpr["micro"], _ = roc_curve(dummy_y_Test.ravel(), predictions.ravel())
+roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+# Compute macro-average ROC curve and ROC area
+
+# First aggregate all false positive rates
+all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))
+
+# Then interpolate all ROC curves at this points
+mean_tpr = np.zeros_like(all_fpr)
+for i in range(n_classes):
+    mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+
+# Finally average it and compute AUC
+mean_tpr /= n_classes
+
+fpr["macro"] = all_fpr
+tpr["macro"] = mean_tpr
+roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
+
+# Plot all ROC curves
+plt.figure(1)
+plt.plot(fpr["micro"], tpr["micro"],
+         label='micro-average ROC curve (area = {0:0.2f})'
+               ''.format(roc_auc["micro"]),
+         color='deeppink', linestyle=':', linewidth=4)
+
+plt.plot(fpr["macro"], tpr["macro"],
+         label='macro-average ROC curve (area = {0:0.2f})'
+               ''.format(roc_auc["macro"]),
+         color='navy', linestyle=':', linewidth=4)
+
+colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+for i, color in zip(range(n_classes), colors):
+    plt.plot(fpr[i], tpr[i], color=color, lw=lw,
+             label='ROC curve of class {0} (area = {1:0.2f})'
+             ''.format(class_names[i], roc_auc[i]))
+
+plt.plot([0, 1], [0, 1], 'k--', lw=lw)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Some extension of Receiver operating characteristic to multi-class')
+plt.legend(loc="lower right")
+plt.savefig('roc.png')
+
+
+
+# ------------------------------------------------------------- #
+# ----------------------- PR CURVE --------------------------- #
+# ------------------------------------------------------------- #
+plt.figure(3)
+# precision recall curve
+precision = dict()
+recall = dict()
+pr_auc = dict()
+for i in range(n_classes):
+    precision[i], recall[i], _ = precision_recall_curve(testY[:, i],
+                                                            predictions[:, i])
+    pr_auc[i] = auc(recall[i], precision[i])
+
+colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+for i, color in zip(range(n_classes), colors):
+    plt.plot(recall[i], precision[i], color=color, lw=lw,
+             label='PR curve of class {0} (area = {1:0.2f})'
+             ''.format(class_names[i], pr_auc[i]))
+    
+    # plt.plot([1, 0], [0, 1], 'k--', lw=lw)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])    
+plt.xlabel("recall")
+plt.ylabel("precision")
+plt.legend(loc="best")
+plt.title("precision vs. recall curve")
+plt.savefig('PR.png')
+
+# ------------------------------------------------------------- #
+# ---------------- Training Validation CURVE ------------------ #
+# ------------------------------------------------------------- #
+# plot the training loss and accuracy (if --plot output file specified in arguments)
+plt.figure(4)
+N = np.arange(0, num_epochs)
+plt.style.use("ggplot")
+plt.plot(N, history.history["loss"], label="train_loss")
+plt.plot(N, history.history["val_loss"], label="val_loss")
+plt.plot(N, history.history["acc"], label="train_acc")
+plt.plot(N, history.history["val_acc"], label="val_acc")
+plt.title("Training Loss and Accuracy (Simple NN)")
+plt.xlabel("Epoch \#")
+print("Plot of training/validation loss and accuracy saved!")
+plt.ylabel("Loss/Accuracy")
+plt.legend()
+plt.savefig('acc.png')
