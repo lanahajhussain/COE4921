@@ -18,6 +18,13 @@ from keras.models import Sequential
 from keras.layers import Dense
 
 
+
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+session = tf.Session(config=config)
+
+
 #########ROC#######
 from scipy import interp
 from itertools import cycle
@@ -237,7 +244,7 @@ precision = dict()
 recall = dict()
 pr_auc = dict()
 for i in range(n_classes):
-    precision[i], recall[i], _ = precision_recall_curve(testY[:, i],
+    precision[i], recall[i], _ = precision_recall_curve(dummy_y_train[:, i],
                                                             predictions[:, i])
     pr_auc[i] = auc(recall[i], precision[i])
 
