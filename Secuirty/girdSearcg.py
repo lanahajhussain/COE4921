@@ -145,7 +145,7 @@ model = KerasClassifier(build_fn=create_model)
 epochs = [16, 50, 100]  #32,25,75, 128, 150, 175, 200, 225, 250]  # add 50, 100, 150 etc
 batch_size = [16, 32]  #, 128, 150, 175]  # add 5, 10, 20, 40, 60, 80, 100 etc
 # learn_rate = [0.01, 0.001, 0.0005]
-param_grid = dict(epochs=epochs, batch_size=)
+param_grid = dict(epochs=epochs, batch_size=batch_size)
 # , learn_rate=learn_rate)
 ##############################################################
 grid = GridSearchCV(estimator=model, param_grid=param_grid, n_jobs=1, cv=5)
