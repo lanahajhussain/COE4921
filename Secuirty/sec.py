@@ -165,8 +165,8 @@ dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
-num_epochs=50
-batch_size=128
+num_epochs=100
+batch_size=64
 def create_model():
 # define the keras model
     optimizer = SGD(lr=0.1)
