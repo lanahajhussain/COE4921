@@ -164,9 +164,8 @@ model=create_model()
 model.fit(X_train, dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 y_pred=model.predict(X_test, batch_size=32)
 
-scores = cross_validate(estimator=model, X=X_train, y=dummy_y_train, cv=10,return_train_score=True)
-hehe = classification_report(dummy_y_Test.argmax(axis=1),predictions.argmax(axis=1), target_names=class_names, output_dict=True)
-print(classification_report(labels_subset2, y_pred, target_names=class_names))
+hehe = classification_report(dummy_y_Test.argmax(axis=1),y_pred.argmax(axis=1), target_names=class_names, output_dict=True)
+print(hehe)
 
 normal_f.append(hehe[0]['f1-score'])
 dos_f.append(hehe[1]['f1-score'])
@@ -194,7 +193,7 @@ for i in ratios:
 
 #     class_names=['normal','dos','probe','u2r','r2l']
 
-    hehe = classification_report(dummy_y_Test.argmax(axis=1),predictions.argmax(axis=1), target_names=class_names, output_dict=True)
+    hehe = classification_report(dummy_y_Test.argmax(axis=1),y_pred.argmax(axis=1), target_names=class_names, output_dict=True)
     normal_f.append(hehe[0]['f1-score'])
     dos_f.append(hehe[1]['f1-score'])
     probe_f.append(hehe[2]['f1-score'])
