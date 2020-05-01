@@ -165,8 +165,8 @@ dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
-num_epochs=50
-batch_size=32
+num_epochs=16
+batch_size=128
 def create_model():
 # define the keras model
     model = Sequential()
