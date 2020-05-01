@@ -83,6 +83,34 @@ Y_train = arr_train[:,41]
 X_test = arr_test[:,0:41]
 Y_test = arr_test[:,41]
 
+# ------------------------------------------------------------- #
+# ----------------- Feature Selection ------------------------- #
+# ------------------------------------------------------------- #
+
+# Dimensionality Reduction 
+from sklearn.decomposition import PCA 
+from sklearn.preprocessing import StandardScaler
+
+
+scaler=StandardScaler()#instantiate
+scaler.fit(X_train) # compute the mean and standard which will be used in the next command
+X_scaled_train=scaler.transform(X_train)# fit and transform can be applied together and I leave that for simple exercise
+scaler.fit(X_test) # compute the mean and standard which will be used in the next command
+X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
+
+# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
+print ("after scaling minimum", X_scaled.min(axis=0) )
+
+pca2=PCA(0.75)
+pca2.fit(X_scaled_train)
+pca2.fit(X_scaled_test)
+
+print(pca2.n_components_)
+print(pca2.explained_variance_ratio_) 
+print(pca2.singular_values_)
+ 
+X_train_pca=pca.transform(X_scaled_train) 
+X_test_pca=pca.transform(X_scaled_test) 
 
 
 # ------------------------------------------------------------- #
@@ -96,7 +124,7 @@ from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
 sm = SMOTE(sampling_strategy={3:5000,4:5000}, random_state=7)
-X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
+X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
 # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
 # X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
 print(Counter(Y_ov))
@@ -104,51 +132,6 @@ under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_stat
 X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 
 
-# ------------------------------------------------------------- #
-# ----------------- Feature Selection ------------------------- #
-# ------------------------------------------------------------- #
-
-# Dimensionality Reduction 
-from sklearn.decomposition import PCA 
-from sklearn.preprocessing import StandardScaler
-
-
-scaler=StandardScaler()#instantiate
-scaler.fit(X_new) # compute the mean and standard which will be used in the next command
-X_scaled=scaler.transform(X_new)# fit and transform can be applied together and I leave that for simple exercise
-# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
-print ("after scaling minimum", X_scaled.min(axis=0) )
-
- 
-Ratio=[]
-Ratio1=[]
-for i in range(1,31):
-    pca = PCA(n_components=i) 
-    pca.fit(X_scaled)
-    PCA(copy=True, iterated_power='auto', n_components=i, random_state=None, 
-    svd_solver='auto', tol=0.0, whiten=False)
-    Ratio.append(round(pca.explained_variance_ratio_.sum(),i)*100)
-    Ratio1.append(pca.explained_variance_ratio_[i-1]*100)
-#     pca.explained_variance_ratio_
-    print('\n n_components= ',i,pca.explained_variance_ratio_) 
-#     print(pca.singular_values_) 
-print()
-print(Ratio1)
-
-
-components= np.linspace(1,30, num=30)
-
-plt.figure(figsize=(30,10))
-plt.fig(10)
-ax = sns.barplot(x=components, y=Ratio)
-ax.set(title="Cumulative sum of variance",xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
-plt.savefig('1.png')
-
-plt.fig(20)
-plt.figure(figsize=(20,5))
-ax2 = sns.barplot(x=components, y=Ratio1)
-ax2.set(title='Amount of variance explained by each PC',xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
-plt.savefig('2.png')
 
 
 # ------------------------------------------------------------- #
@@ -223,7 +206,7 @@ plot_model(model, to_file='model.png', show_shapes=True,)
 # ------------------------------------------------------------- #
 
 
-predictions=model.predict(X_test, batch_size=batch_size)
+predictions=model.predict(X_test_pca, batch_size=batch_size)
 print(predictions)
 
 from sklearn.metrics import classification_report
