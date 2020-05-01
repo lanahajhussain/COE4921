@@ -111,8 +111,8 @@ print(pca2.n_components_)
 print(pca2.explained_variance_ratio_) 
 print(pca2.singular_values_)
  
-X_train_pca=pca.transform(X_scaled_train) 
-X_test_pca=pca.transform(X_scaled_test) 
+X_train_pca=pca2.transform(X_scaled_train) 
+X_test_pca=pca2.transform(X_scaled_test) 
 
 
 # ------------------------------------------------------------- #
