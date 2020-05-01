@@ -119,6 +119,15 @@ model.add(Dense(41, input_dim=41, activation='relu'))
 model.add(Dense(41, activation='relu'))
 model.add(Dense(5, activation = 'softmax'))
 
+
+#   base_model = Sequential()
+#   base_model.add(Flatten(input_shape=input_shape))  # this converts our 3D feature maps to 1D feature vectors
+#   base_model.add(Dense(256, activation='relu'))
+#   base_model.add(Dense(256, activation='relu'))
+#   base_model.add(Dense(128, activation='relu'))
+#   base_model.add(Dense(64, activation='relu'))
+#   base_model.add(Dense(3, activation='softmax'))
+
 # compile the keras model
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
