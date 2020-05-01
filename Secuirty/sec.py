@@ -172,7 +172,7 @@ def create_model():
     model = Sequential()
     model.add(Dense(22, input_dim=22, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
-    model.add(Dense(8, actiation='sigmoid'))
+    model.add(Dense(8, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
 
     model.add(Dense(5, activation = 'softmax'))
