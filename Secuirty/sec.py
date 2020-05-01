@@ -114,7 +114,9 @@ dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 from imblearn.over_sampling import SMOTE
 from imblearn.combine import SMOTEENN, SMOTETomek
 from imblearn.pipeline import make_pipeline
-
+from collections import Counter
+from imblearn.over_sampling import RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
 # sm = SMOTE(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=7)
 # X_new,Y_new=sm.fit_resample(X_train, dummy_y_train)
