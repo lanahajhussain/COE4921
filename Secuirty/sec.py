@@ -95,13 +95,13 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
-sm = SMOTE(sampling_strategy={3:10000,4:10000}, random_state=7)
-X_new,Y_new=sm.fit_resample(X_train, Y_train)
+sm = SMOTE(sampling_strategy={3:5000,4:5000}, random_state=7)
+X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
 # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
 # X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
-print(Counter(Y_new))
-# under = RandomUnderSampler(sampling_strategy={'0:1000,1:1000,2:100'}, random_state=1)
-# X_un, Y_un = under.fit_resample(X_ov, Y_ov)
+print(Counter(Y_ov))
+under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_state=1)
+X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 
 # ------------------------------------------------------------- #
 # ---------------------- Encoding Data ------------------------- #
