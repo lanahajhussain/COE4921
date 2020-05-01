@@ -167,11 +167,11 @@ y_pred=model.predict(X_test, batch_size=32)
 hehe = classification_report(dummy_y_Test.argmax(axis=1),y_pred.argmax(axis=1), target_names=class_names, output_dict=True)
 print(hehe)
 
-normal_f.append(hehe[0]['f1-score'])
-dos_f.append(hehe[1]['f1-score'])
-probe_f.append(hehe[2]['f1-score'])
-u2r_f.append(hehe[3]['f1-score'])
-r2l_f.append(hehe[4]['f1-score'])
+normal_f.append(hehe['normal']['f1-score'])
+dos_f.append(hehe['dos']['f1-score'])
+probe_f.append(hehe['probe']['f1-score'])
+u2r_f.append(hehe['u2r']['f1-score'])
+r2l_f.append(hehe['r2l']['f1-score'])
 
 for i in ratios:
 
@@ -194,11 +194,11 @@ for i in ratios:
 #     class_names=['normal','dos','probe','u2r','r2l']
 
     hehe = classification_report(dummy_y_Test.argmax(axis=1),y_pred.argmax(axis=1), target_names=class_names, output_dict=True)
-    normal_f.append(hehe[0]['f1-score'])
-    dos_f.append(hehe[1]['f1-score'])
-    probe_f.append(hehe[2]['f1-score'])
-    u2r_f.append(hehe[3]['f1-score'])
-    r2l_f.append(hehe[4]['f1-score'])
+    normal_f.append(hehe['normal']['f1-score'])
+    dos_f.append(hehe['dos']['f1-score'])
+    probe_f.append(hehe['probe']['f1-score'])
+    u2r_f.append(hehe['u2r']['f1-score'])
+    r2l_f.append(hehe['r2l']['f1-score'])
     
     
 ratios = [0, 0.2,0.25,0.3,0.35,0.4,0.45,0.5,0.55,0.6,0.65,0.7,0.75,0.8,0.85,0.9,0.95,1]
