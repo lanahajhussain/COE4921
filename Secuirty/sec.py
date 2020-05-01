@@ -162,10 +162,6 @@ dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
 
 
-
-
-
-
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
@@ -188,7 +184,7 @@ def create_model():
     #   base_model.add(Dense(3, activation='softmax'))
 
     # compile the keras model
-    model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='kullback_leibler_divergence', optimizer='adam', metrics=['accuracy'])
 
     return model
 model=create_model()
