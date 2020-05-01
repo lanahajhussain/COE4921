@@ -172,7 +172,7 @@ def create_model():
     optimizer = SGD(lr=0.01)
 
     model = Sequential()
-    model.add(Dense(12, input_dim=6, activation='sigmoid'))
+    model.add(Dense(12, input_dim=8, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
     model.add(Dense(6, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
