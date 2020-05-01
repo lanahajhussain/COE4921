@@ -189,8 +189,6 @@ for i in ratios:
 
     model=create_model()
     model.fit(X_un, Y_un, validation_split=0.2, epochs=num_epochs, batch_size=batch_size, verbose=1)
-    clf.fit(features_subset1, labels_subset1)
-
     y_pred=model.predict(X_test, batch_size=32)
     scores = cross_validate(estimator=model, X=X_train, y=dummy_y_train, cv=10,return_train_score=True)
 
