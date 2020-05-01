@@ -141,23 +141,23 @@ X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 # ------------------------------------------------------------- #
 # Prepare Y values for one-hot encoding
 
-# from sklearn.preprocessing import LabelEncoder
-# from keras.utils import np_utils
+from sklearn.preprocessing import LabelEncoder
+from keras.utils import np_utils
 
-# # encode class values as integers
-# encoder = LabelEncoder()
-# encoder.fit(Y_new)
-# encoded_Y_train= encoder.transform(Y_new)
-# # convert integers to dummy variables (i.e. one hot encoded)
-# dummy_y_train = np_utils.to_categorical(encoded_Y_train)
+# encode class values as integers
+encoder = LabelEncoder()
+encoder.fit(Y_new)
+encoded_Y_train= encoder.transform(Y_new)
+# convert integers to dummy variables (i.e. one hot encoded)
+dummy_y_train = np_utils.to_categorical(encoded_Y_train)
 
 
-# # encode class values as integers
-# encoder = LabelEncoder()
-# encoder.fit(Y_test)
-# encoded_Y_test= encoder.transform(Y_test)
-# # convert integers to dummy variables (i.e. one hot encoded)
-# dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
+# encode class values as integers
+encoder = LabelEncoder()
+encoder.fit(Y_test)
+encoded_Y_test= encoder.transform(Y_test)
+# convert integers to dummy variables (i.e. one hot encoded)
+dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
 
 
@@ -192,7 +192,7 @@ def create_model():
 
     return model
 model=create_model()
-history = model.fit( X_new,Y_new, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+history = model.fit( X_new,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
@@ -214,7 +214,7 @@ print(predictions)
 from sklearn.metrics import classification_report
 # evaluate the network
 print("[INFO] evaluating network...")
-print(classification_report(Y_test.argmax(axis=1),
+print(classification_report(dummy_y_Test.argmax(axis=1),
                             predictions.argmax(axis=1)))
 
 
@@ -229,7 +229,7 @@ import seaborn as sn
 import pandas as pd
 import matplotlib.pyplot as plt
 
-matrix = confusion_matrix(Y_test.argmax(axis=1), predictions.argmax(axis=1))
+matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
 print(matrix)
 
 plt.figure(5)
@@ -255,10 +255,10 @@ fpr = dict()
 tpr = dict()
 roc_auc = dict()
 for i in range(n_classes):
-    fpr[i], tpr[i], _ = roc_curve(Y_test[:, i], predictions[:, i])
+    fpr[i], tpr[i], _ = roc_curve(dummy_y_Test[:, i], predictions[:, i])
     roc_auc[i] = auc(fpr[i], tpr[i])
 # Compute micro-average ROC curve and ROC area
-fpr["micro"], tpr["micro"], _ = roc_curve(Y_test.ravel(), predictions.ravel())
+fpr["micro"], tpr["micro"], _ = roc_curve(dummy_y_Test.ravel(), predictions.ravel())
 roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 # Compute macro-average ROC curve and ROC area
 
@@ -315,7 +315,7 @@ precision = dict()
 recall = dict()
 pr_auc = dict()
 for i in range(n_classes):
-    precision[i], recall[i], _ = precision_recall_curve(Y_test[:, i],
+    precision[i], recall[i], _ = precision_recall_curve(dummy_y_Test[:, i],
                                                             predictions[:, i])
     pr_auc[i] = auc(recall[i], precision[i])
 
