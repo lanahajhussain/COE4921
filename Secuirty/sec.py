@@ -107,32 +107,53 @@ encoded_Y_test= encoder.transform(Y_test)
 dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
 
+
+# ------------------------------------------------------------- #
+# ----------------- Balancing Dataset------------------------ #
+# ------------------------------------------------------------- #
+from imblearn.over_sampling import SMOTE
+from imblearn.combine import SMOTEENN, SMOTETomek
+from imblearn.pipeline import make_pipeline
+
+ # define oversampling strategy
+    sm = SMOTE(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=7)
+    X_new,Y_new=sm.fit_resample(X_train, dummy_y_train)
+    # oversample = RandomOverSampler(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=1)
+    #print(Counter(Y))
+    # X_ov, Y_ov = oversample.fit_resample(X_train, dummy_y_train)
+    #print(Counter(Y_ov))
+
+    # under = RandomUnderSampler(sampling_strategy=1, random_state=1)
+    # X_un, Y_un = under.fit_resample(X_ov, Y_ov)
+
+
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
 num_epochs=50
 batch_size=32
-
+def create_model():
 # define the keras model
-model = Sequential()
-model.add(Dense(41, input_dim=41, activation='relu'))
-model.add(Dense(41, activation='relu'))
-model.add(Dense(5, activation = 'softmax'))
+    model = Sequential()
+    model.add(Dense(41, input_dim=41, activation='relu'))
+    model.add(Dense(41, activation='relu'))
+    model.add(Dense(5, activation = 'softmax'))
 
 
-#   base_model = Sequential()
-#   base_model.add(Flatten(input_shape=input_shape))  # this converts our 3D feature maps to 1D feature vectors
-#   base_model.add(Dense(256, activation='relu'))
-#   base_model.add(Dense(256, activation='relu'))
-#   base_model.add(Dense(128, activation='relu'))
-#   base_model.add(Dense(64, activation='relu'))
-#   base_model.add(Dense(3, activation='softmax'))
+    #   base_model = Sequential()
+    #   base_model.add(Flatten(input_shape=input_shape))  # this converts our 3D feature maps to 1D feature vectors
+    #   base_model.add(Dense(256, activation='relu'))
+    #   base_model.add(Dense(256, activation='relu'))
+    #   base_model.add(Dense(128, activation='relu'))
+    #   base_model.add(Dense(64, activation='relu'))
+    #   base_model.add(Dense(3, activation='softmax'))
 
-# compile the keras model
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    # compile the keras model
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-
-history = model.fit(X_train, dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+    return model
+model=create_model()
+history = model.fit( X_new,Y_new, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
@@ -142,11 +163,13 @@ from keras.utils import plot_model
 plot_model(model, to_file='model.png', show_shapes=True,)
 
 
+
 # ------------------------------------------------------------- #
 # ----------------- Performance Metrics------------------------ #
 # ------------------------------------------------------------- #
 
-predictions=model.predict(X_test, batch_size=32)
+
+predictions=model.predict(X_test, batch_size=batch_size)
 print(predictions)
 
 from sklearn.metrics import classification_report
