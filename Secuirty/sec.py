@@ -114,7 +114,7 @@ from keras.utils import np_utils
 # encode class values as integers
 encoder = LabelEncoder()
 encoder.fit(Y_new)
-encoded_Y_train= encoder.transform(Y_train)
+encoded_Y_train= encoder.transform(Y_new)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_train = np_utils.to_categorical(encoded_Y_train)
 
