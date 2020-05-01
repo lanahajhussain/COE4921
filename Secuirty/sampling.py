@@ -219,4 +219,4 @@ ax.plot(ratios, u2r_f, marker='o', label=" u2r_f",
 ax.plot(ratios, r2l_f, marker='o', label=" r2l_f",
         drawstyle="steps-post")
 ax.legend()
-plt.show()
+plt.savefig('sampling.png')
