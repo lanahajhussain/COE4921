@@ -165,11 +165,11 @@ dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
-num_epochs=16
+num_epochs=50
 batch_size=128
 def create_model():
 # define the keras model
-    optimizer = SGD(lr=0.01)
+    optimizer = SGD(lr=0.1)
 
     model = Sequential()
     model.add(Dense(22, input_dim=22, activation='sigmoid'))
