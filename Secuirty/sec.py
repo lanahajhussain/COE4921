@@ -169,6 +169,8 @@ num_epochs=16
 batch_size=128
 def create_model():
 # define the keras model
+    optimizer = SGD(lr=0.001)
+
     model = Sequential()
     model.add(Dense(22, input_dim=22, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
@@ -187,7 +189,7 @@ def create_model():
     #   base_model.add(Dense(3, activation='softmax'))
 
     # compile the keras model
-    model.compile(loss='kullback_leibler_divergence', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
     return model
 model=create_model()
