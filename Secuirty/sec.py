@@ -169,7 +169,7 @@ num_epochs=100
 batch_size=64
 def create_model():
 # define the keras model
-    optimizer = SGD(lr=0.1)
+    optimizer = SGD(lr=0.01)
 
     model = Sequential()
     model.add(Dense(22, input_dim=22, activation='sigmoid'))
