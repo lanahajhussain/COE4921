@@ -170,8 +170,11 @@ batch_size=128
 def create_model():
 # define the keras model
     model = Sequential()
-    model.add(Dense(22, input_dim=22, activation='relu'))
+    model.add(Dense(22, input_dim=22, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
+    model.add(Dense(8, actiation='sigmoid'))
+    model.add(layers.Dropout(0.5))
+
     model.add(Dense(5, activation = 'softmax'))
 
 
