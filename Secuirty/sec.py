@@ -169,14 +169,13 @@ num_epochs=16
 batch_size=128
 def create_model():
 # define the keras model
-    optimizer = SGD(lr=0.001)
+    optimizer = SGD(lr=0.01)
 
     model = Sequential()
     model.add(Dense(22, input_dim=22, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
     model.add(Dense(8, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
-
     model.add(Dense(5, activation = 'softmax'))
 
 
