@@ -116,15 +116,13 @@ from imblearn.combine import SMOTEENN, SMOTETomek
 from imblearn.pipeline import make_pipeline
 
  # define oversampling strategy
-sm = SMOTE(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=7)
-X_new,Y_new=sm.fit_resample(X_train, dummy_y_train)
-    # oversample = RandomOverSampler(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=1)
-    #print(Counter(Y))
-    # X_ov, Y_ov = oversample.fit_resample(X_train, dummy_y_train)
-    #print(Counter(Y_ov))
-
-    # under = RandomUnderSampler(sampling_strategy=1, random_state=1)
-    # X_un, Y_un = under.fit_resample(X_ov, Y_ov)
+# sm = SMOTE(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=7)
+# X_new,Y_new=sm.fit_resample(X_train, dummy_y_train)
+oversample = RandomOverSampler(sampling_strategy={'3:2000,4:2000'}, random_state=1)
+X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
+print(Counter(Y_new))
+# under = RandomUnderSampler(sampling_strategy={'0:1000,1:1000,2:100'}, random_state=1)
+# X_un, Y_un = under.fit_resample(X_ov, Y_ov)
 
 
 # ------------------------------------------------------------- #
