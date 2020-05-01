@@ -99,7 +99,9 @@ scaler.fit(X_test) # compute the mean and standard which will be used in the nex
 X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
 
 # we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
-print ("after scaling minimum", X_scaled.min(axis=0) )
+print ("after scaling minimum", X_scaled_train.min(axis=0) )
+print ("after scaling minimum", X_scaled_test.min(axis=0) )
+
 
 pca2=PCA(0.75)
 pca2.fit(X_scaled_train)
