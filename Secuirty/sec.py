@@ -83,29 +83,6 @@ Y_train = arr_train[:,41]
 X_test = arr_test[:,0:41]
 Y_test = arr_test[:,41]
 
-# ------------------------------------------------------------- #
-# ---------------------- Encoding Data ------------------------- #
-# ------------------------------------------------------------- #
-# Prepare Y values for one-hot encoding
-
-from sklearn.preprocessing import LabelEncoder
-from keras.utils import np_utils
-
-# encode class values as integers
-encoder = LabelEncoder()
-encoder.fit(Y_train)
-encoded_Y_train= encoder.transform(Y_train)
-# convert integers to dummy variables (i.e. one hot encoded)
-dummy_y_train = np_utils.to_categorical(encoded_Y_train)
-
-
-# encode class values as integers
-encoder = LabelEncoder()
-encoder.fit(Y_test)
-encoded_Y_test= encoder.transform(Y_test)
-# convert integers to dummy variables (i.e. one hot encoded)
-dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
-
 
 
 # ------------------------------------------------------------- #
@@ -118,13 +95,36 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
-# sm = SMOTE(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=7)
-# X_new,Y_new=sm.fit_resample(X_train, dummy_y_train)
-oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
-X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
+sm = SMOTE(sampling_strategy={'0:1000,1:1000,2:1000,3:1000,4:1000'}, random_state=7)
+X_new,Y_new=sm.fit_resample(X_train, Y_train)
+# oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
+# X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
 print(Counter(Y_new))
 # under = RandomUnderSampler(sampling_strategy={'0:1000,1:1000,2:100'}, random_state=1)
 # X_un, Y_un = under.fit_resample(X_ov, Y_ov)
+
+# ------------------------------------------------------------- #
+# ---------------------- Encoding Data ------------------------- #
+# ------------------------------------------------------------- #
+# Prepare Y values for one-hot encoding
+
+from sklearn.preprocessing import LabelEncoder
+from keras.utils import np_utils
+
+# encode class values as integers
+encoder = LabelEncoder()
+encoder.fit(Y_new)
+encoded_Y_train= encoder.transform(Y_train)
+# convert integers to dummy variables (i.e. one hot encoded)
+dummy_y_train = np_utils.to_categorical(encoded_Y_train)
+
+
+# encode class values as integers
+encoder = LabelEncoder()
+encoder.fit(Y_test)
+encoded_Y_test= encoder.transform(Y_test)
+# convert integers to dummy variables (i.e. one hot encoded)
+dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
 
 # ------------------------------------------------------------- #
@@ -153,7 +153,7 @@ def create_model():
 
     return model
 model=create_model()
-history = model.fit( X_new,Y_new, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+history = model.fit( X_new,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
