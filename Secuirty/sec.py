@@ -103,7 +103,7 @@ print ("after scaling minimum", X_scaled_train.min(axis=0) )
 print ("after scaling minimum", X_scaled_test.min(axis=0) )
 
 
-pca2=PCA(0.58)
+pca2=PCA(0.56)
 pca2.fit(X_scaled_train)
 pca2.fit(X_scaled_test)
 
@@ -172,7 +172,7 @@ def create_model():
     optimizer = SGD(lr=0.01)
 
     model = Sequential()
-    model.add(Dense(12, input_dim=22, activation='sigmoid'))
+    model.add(Dense(12, input_dim=6, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
     model.add(Dense(6, activation='sigmoid'))
     model.add(layers.Dropout(0.5))
