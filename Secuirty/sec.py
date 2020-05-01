@@ -103,6 +103,49 @@ print(Counter(Y_ov))
 under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_state=1)
 X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 
+
+# ------------------------------------------------------------- #
+# ----------------- Feature Selection ------------------------- #
+# ------------------------------------------------------------- #
+
+scaler=StandardScaler()#instantiate
+scaler.fit(X_new) # compute the mean and standard which will be used in the next command
+X_scaled=scaler.transform(X_new)# fit and transform can be applied together and I leave that for simple exercise
+# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
+print ("after scaling minimum", X_scaled.min(axis=0) )
+
+ 
+Ratio=[]
+Ratio1=[]
+for i in range(1,31):
+    pca = PCA(n_components=i) 
+    pca.fit(X_scaled)
+    PCA(copy=True, iterated_power='auto', n_components=i, random_state=None, 
+    svd_solver='auto', tol=0.0, whiten=False)
+    Ratio.append(round(pca.explained_variance_ratio_.sum(),i)*100)
+    Ratio1.append(pca.explained_variance_ratio_[i-1]*100)
+#     pca.explained_variance_ratio_
+    print('\n n_components= ',i,pca.explained_variance_ratio_) 
+#     print(pca.singular_values_) 
+print()
+print(Ratio1)
+
+
+components= np.linspace(1,30, num=30)
+
+plt.figure(figsize=(30,10))
+plt.fig(10)
+ax = sns.barplot(x=components, y=Ratio)
+ax.set(title="Cumulative sum of variance",xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
+plt.savefig('1.png')
+
+plt.fig(20)
+plt.figure(figsize=(20,5))
+ax2 = sns.barplot(x=components, y=Ratio1)
+ax2.set(title='Amount of variance explained by each PC',xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
+plt.savefig('2.png')
+
+
 # ------------------------------------------------------------- #
 # ---------------------- Encoding Data ------------------------- #
 # ------------------------------------------------------------- #
@@ -125,6 +168,12 @@ encoder.fit(Y_test)
 encoded_Y_test= encoder.transform(Y_test)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
+
+
+
+
+
+
 
 
 # ------------------------------------------------------------- #
@@ -276,7 +325,7 @@ precision = dict()
 recall = dict()
 pr_auc = dict()
 for i in range(n_classes):
-    precision[i], recall[i], _ = precision_recall_curve(dummy_y_train[:, i],
+    precision[i], recall[i], _ = precision_recall_curve(dummy_y_Test[:, i],
                                                             predictions[:, i])
     pr_auc[i] = auc(recall[i], precision[i])
 
