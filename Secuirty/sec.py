@@ -108,6 +108,11 @@ X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 # ----------------- Feature Selection ------------------------- #
 # ------------------------------------------------------------- #
 
+# Dimensionality Reduction 
+from sklearn.decomposition import PCA 
+from sklearn.preprocessing import StandardScaler
+
+
 scaler=StandardScaler()#instantiate
 scaler.fit(X_new) # compute the mean and standard which will be used in the next command
 X_scaled=scaler.transform(X_new)# fit and transform can be applied together and I leave that for simple exercise
