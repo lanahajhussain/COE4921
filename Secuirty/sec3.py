@@ -275,7 +275,7 @@ plot_model(model, to_file='model.png', show_shapes=True,)
 # ------------------------------------------------------------- #
 
 
-predictions=model.predict(X_test_pca, batch_size=batch_size)
+predictions=model.predict(X_test, batch_size=batch_size)
 print(predictions)
 
 from sklearn.metrics import classification_report
@@ -297,6 +297,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
+print(dummy_y_Test.argmax(axis=1)
+print(predictions.argmax(axis=1))
+
+
 print(matrix)
 
 plt.figure(5)
