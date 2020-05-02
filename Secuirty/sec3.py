@@ -273,6 +273,8 @@ encoded_Y_test= encoder.transform(Y_test)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
+print(X_new)
+print(X_test_pca)
 print(dummy_y_train)
 print(dummy_y_Test)
 # ------------------------------------------------------------- #
@@ -330,7 +332,7 @@ def create_modelCNN():
     model.add(MaxPooling1D(pool_size=2))
     model.add(Flatten())
     model.add(Dense(100, activation='relu'))
-    model.add(Dense(n_outputs, activation='softmax'))
+    model.add(Dense(4, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     model.summary()
