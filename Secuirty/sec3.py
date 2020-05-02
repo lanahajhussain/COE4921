@@ -280,6 +280,8 @@ print(dummy_y_Test)
 # ------------------------------------------------------------- #
 num_epochs=20
 batch_size=16
+from keras.layers import Input, Dense
+
 def create_model():
 # define the keras model
     # model = Sequential()
