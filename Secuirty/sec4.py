@@ -152,9 +152,10 @@ Y_train = arr_train[:,18]
 
 # separate X and Y
 X_test = arr_test[:,0:18]
-X_train=np.linalg.norm(X_train).reshape(-1,1)
+X_test=np.linalg.norm(X_test).reshape(-1,1)
 Y_test = arr_test[:,18]
 
+print(X_train)
 # # ------------------------------------------------------------- #
 # # ----------------- Feature Selection ------------------------- #
 # # ------------------------------------------------------------- #
