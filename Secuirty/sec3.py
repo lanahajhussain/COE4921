@@ -157,13 +157,25 @@ Y_test = arr_test[:,18]
 # ----------------- Feature Selection ------------------------- #
 # ------------------------------------------------------------- #
 
-scaler=StandardScaler()#instantiate
-scaler.fit(X_train) # compute the mean and standard which will be used in the next command
-X_scaled=scaler.transform(X)# fit and transform can be applied together and I leave that for simple exercise
-# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
-print ("after scaling minimum", X_scaled.min(axis=0) )
+
+# Dimensionality Reduction 
+from sklearn.decomposition import PCA 
+from sklearn.preprocessing import StandardScaler
+
 
  
+
+
+scaler=StandardScaler()#instantiate
+scaler.fit(X_train) # compute the mean and standard which will be used in the next command
+X_scaled_train=scaler.transform(X_train)# fit and transform can be applied together and I leave that for simple exercise
+scaler.fit(X_test) # compute the mean and standard which will be used in the next command
+X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
+
+# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
+print ("after scaling minimum", X_scaled_train.min(axis=0) )
+print ("after scaling minimum", X_scaled_test.min(axis=0) )
+
 Ratio=[]
 Ratio1=[]
 for i in range(1,18):
@@ -196,20 +208,13 @@ plt.savefig('pca2.png')
 
 
 
-# Dimensionality Reduction 
-from sklearn.decomposition import PCA 
-from sklearn.preprocessing import StandardScaler
 
 
-scaler=StandardScaler()#instantiate
-scaler.fit(X_train) # compute the mean and standard which will be used in the next command
-X_scaled_train=scaler.transform(X_train)# fit and transform can be applied together and I leave that for simple exercise
-scaler.fit(X_test) # compute the mean and standard which will be used in the next command
-X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
 
-# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
-print ("after scaling minimum", X_scaled_train.min(axis=0) )
-print ("after scaling minimum", X_scaled_test.min(axis=0) )
+
+
+
+
 
 
 pca2=PCA(0.90)
