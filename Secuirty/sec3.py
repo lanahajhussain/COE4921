@@ -241,7 +241,7 @@ def create_model():
     optimizer = SGD(lr=0.001)
 
     model = Sequential()
-    model.add(Dense(8, input_dim=8, activation='relu'))
+    model.add(Dense(9, input_dim=9, activation='relu'))
     model.add(Dense(4, activation='relu'))
     model.add(Dense(4, activation = 'softmax'))
 
