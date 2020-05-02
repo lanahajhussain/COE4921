@@ -141,19 +141,30 @@ df_intrusion_t.xAttack= [1 if each == "dos"
 # for neural network
 
 # convert the array into a numpy array
-arr_train = df_intrusion.to_numpy()
-arr_test = df_intrusion_t.to_numpy()
+Y_train = df_intrusion['xAttack'].to_numpy()
+Y_test = df_intrusion_t['xAttack'].to_numpy()
 
-# separate X and Y
-X_train = arr_train[:,0:18]
-X_train=np.linalg.norm(X_train[i]).reshape(-1,1) for i in range(18)
-Y_train = arr_train[:,18]
+df_intrusion=df_intrusion.drop(columns='xAttack')
+df_intrusion_t=df_intrusion_t.drop(columns='xAttack')
+
+df_intrusion=((df_intrusion-df_intrusion.min())/(df_intrusion.max()-df_intrusion.min()))
+df_intrusion_t=((df_intrusion_t-df_intrusion_t.min())/(df_intrusion_t.max()-df_intrusion_t.min()))
 
 
-# separate X and Y
-X_test = arr_test[:,0:18]
-X_test=np.linalg.norm(X_test).reshape(-1,1)
-Y_test = arr_test[:,18]
+X_train = df_intrusion.to_numpy()
+X_test = df_intrusion_t.to_numpy()
+
+
+# arr_test = df_intrusion_t.to_numpy()
+
+# # separate X and Y
+# X_train = arr_train[:,0:18]
+# Y_train = arr_train[:,18]
+
+
+# # separate X and Y
+# X_test = arr_test[:,0:18]
+# Y_test = arr_test[:,18]
 
 print(X_train)
 # # ------------------------------------------------------------- #
