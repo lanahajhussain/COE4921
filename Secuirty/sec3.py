@@ -264,8 +264,6 @@ encoder.fit(Y_new)
 encoded_Y_train= encoder.transform(Y_new)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_train = np_utils.to_categorical(encoded_Y_train)
-
-
 # encode class values as integers
 encoder = LabelEncoder()
 encoder.fit(Y_test)
@@ -327,7 +325,20 @@ from keras.layers import MaxPooling1D
 from keras.layers import Flatten
 
 def create_modelCNN():
-    
+    encoder = LabelEncoder()
+
+    encoder.fit(X_new)
+    encoded_X_test= encoder.transform(X_new)
+    X_new_CNN = np_utils.to_categorical(X_new)
+
+    encoder = LabelEncoder()
+    encoder.fit(X_test_pca)
+    encoded_X_test= encoder.transform(X_test_pca)
+    X_test_pca_CNN = np_utils.to_categorical(encoded_Y_test)
+
+    print("hhh",X_new_CNN)
+    print("hhh",X_new_CNN.shape)
+
     model = Sequential()
     model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(9)))
     model.add(Dropout(0.5))
@@ -339,7 +350,7 @@ def create_modelCNN():
 
     model.summary()
     model=create_model()
-    history = model.fit(X_new,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
+    history = model.fit(X_new_CNN,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
     return model
 
 model=create_modelCNN()
