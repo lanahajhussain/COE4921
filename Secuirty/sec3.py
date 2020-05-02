@@ -229,8 +229,8 @@ encoded_Y_test= encoder.transform(Y_test)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
-
-
+print(dummy_y_train)
+print(dummy_y_Test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
@@ -238,7 +238,7 @@ num_epochs=10
 batch_size=32
 def create_model():
 # define the keras model
-    optimizer = SGD(lr=0.001)
+    # optimizer = SGD(lr=0.001)
 
     model = Sequential()
     model.add(Dense(18, input_dim=18, activation='relu'))
