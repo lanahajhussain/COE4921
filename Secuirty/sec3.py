@@ -195,7 +195,7 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
-sm = SMOTE(sampling_strategy={3:10000}, random_state=1)
+sm = SMOTE(sampling_strategy={3:20000}, random_state=1)
 X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
 print(Counter(Y_ov))
 
