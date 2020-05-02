@@ -195,11 +195,11 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
-sm = SMOTE(sampling_strategy={3:30000,2:30000}, random_state=1)
+sm = SMOTE(sampling_strategy={3:20000,2:20000}, random_state=1)
 X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
 print(Counter(Y_ov))
 
-under = RandomUnderSampler(sampling_strategy={0:30000,1:30000}, random_state=1)
+under = RandomUnderSampler(sampling_strategy={0:20000,1:20000}, random_state=1)
 X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 print(Counter(Y_new))
 
@@ -235,11 +235,9 @@ print(dummy_y_Test)
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
 num_epochs=20
-batch_size=10
+batch_size=16
 def create_model():
 # define the keras model
-    optimizer = SGD(lr=0.01)
-
     model = Sequential()
     model.add(Dense(9, input_dim=9, activation='sigmoid'))
     # model.add(layers.Dropout(0.5))
