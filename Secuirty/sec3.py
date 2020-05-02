@@ -180,7 +180,7 @@ Ratio=[]
 Ratio1=[]
 for i in range(1,18):
     pcatest = PCA(n_components=i) 
-    pcatest.fit(X_scaled)
+    pcatest.fit(X_scaled_train)
     PCA(copy=True, iterated_power='auto', n_components=i, random_state=None, 
     svd_solver='auto', tol=0.0, whiten=False)
     Ratio.append(round(pcatest.explained_variance_ratio_.sum(),i)*100)
