@@ -244,7 +244,7 @@ print(dummy_y_Test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
-num_epochs=20
+num_epochs=10
 batch_size=10
 from keras.layers import Input, Dense
 
@@ -263,7 +263,7 @@ def create_modelCNN():
     model.add(MaxPooling1D(pool_size=1))
 
     model.add(Flatten())
-    model.add(Dense(90, activation='relu'))
+    model.add(Dense(108, activation='relu'))
     model.add(Dense(4, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
