@@ -244,7 +244,7 @@ print(dummy_y_Test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
-num_epochs=20
+num_epochs=50
 batch_size=16
 from keras.layers import Input, Dense
 
@@ -286,6 +286,7 @@ plot_model(model, to_file='model.png', show_shapes=True,)
 # ----------------- Performance Metrics------------------------ #
 # ------------------------------------------------------------- #
 
+X_tester=X_test.reshape(9913,1,18)
 
 predictions=model.predict(X_test, batch_size=batch_size)
 print(dummy_y_Test.argmax(axis=1))
