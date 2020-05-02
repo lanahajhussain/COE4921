@@ -245,7 +245,7 @@ print(dummy_y_Test)
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
 num_epochs=30
-batch_size=20
+batch_size=10
 from keras.layers import Input, Dense
 
 from keras.models import Sequential
