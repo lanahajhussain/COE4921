@@ -244,8 +244,8 @@ print(dummy_y_Test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
-num_epochs=10
-batch_size=16
+num_epochs=30
+batch_size=48
 from keras.layers import Input, Dense
 
 from keras.models import Sequential
@@ -264,15 +264,16 @@ def create_modelCNN():
     model.add(Conv1D(filters=2, kernel_size=1, activation='relu', input_shape=(1,18)))
     model.add(Dropout(0.5))
     model.add(Flatten())
-    model.add(Dense(100, activation='relu'))
+    model.add(Dense(100, activation='sigmoid'))
     model.add(Dense(4, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     model.summary()
-    history = model.fit(X_newer,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
     return model
 
 model=create_modelCNN()
+history = model.fit(X_newer,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
+
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
 # ------------------------------------------------------------- #
