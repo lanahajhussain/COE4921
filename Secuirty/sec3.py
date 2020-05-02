@@ -192,7 +192,7 @@ print()
 print(Ratio1)
 
 plt.figure(50)
-components= np.linspace(1,18 num=18)
+components= np.linspace(1,18 ,num=18)
 plt.figure(figsize=(20,10))
 ax = sns.barplot(x=components, y=Ratio)
 ax.set(title="Cumulative sum of variance",xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
