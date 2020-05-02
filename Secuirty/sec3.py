@@ -241,9 +241,9 @@ def create_model():
     optimizer = SGD(lr=0.001)
 
     model = Sequential()
-    model.add(Dense(9, input_dim=9, activation='tanh'))
+    model.add(Dense(9, input_dim=9, activation='sigmoid'))
     # model.add(layers.Dropout(0.5))
-    model.add(Dense(4, activation='tanh'))
+    model.add(Dense(4, activation='sigmoid'))
     model.add(Dense(4, activation = 'softmax'))
 
 
