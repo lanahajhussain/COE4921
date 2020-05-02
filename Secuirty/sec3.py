@@ -157,51 +157,51 @@ Y_test = arr_test[:,18]
 # ----------------- Feature Selection ------------------------- #
 # ------------------------------------------------------------- #
 
-# Dimensionality Reduction 
-from sklearn.decomposition import PCA 
-from sklearn.preprocessing import StandardScaler
+# # Dimensionality Reduction 
+# from sklearn.decomposition import PCA 
+# from sklearn.preprocessing import StandardScaler
 
 
-scaler=StandardScaler()#instantiate
-scaler.fit(X_train) # compute the mean and standard which will be used in the next command
-X_scaled_train=scaler.transform(X_train)# fit and transform can be applied together and I leave that for simple exercise
-scaler.fit(X_test) # compute the mean and standard which will be used in the next command
-X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
+# scaler=StandardScaler()#instantiate
+# scaler.fit(X_train) # compute the mean and standard which will be used in the next command
+# X_scaled_train=scaler.transform(X_train)# fit and transform can be applied together and I leave that for simple exercise
+# scaler.fit(X_test) # compute the mean and standard which will be used in the next command
+# X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
 
-# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
-print ("after scaling minimum", X_scaled_train.min(axis=0) )
-print ("after scaling minimum", X_scaled_test.min(axis=0) )
+# # we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
+# print ("after scaling minimum", X_scaled_train.min(axis=0) )
+# print ("after scaling minimum", X_scaled_test.min(axis=0) )
 
 
-pca2=PCA(0.90)
-pca2.fit(X_scaled_train)
-pca2.fit(X_scaled_test)
+# pca2=PCA(0.90)
+# pca2.fit(X_scaled_train)
+# pca2.fit(X_scaled_test)
 
-print(pca2.n_components_)
-print(pca2.explained_variance_ratio_) 
-print(pca2.singular_values_)
+# print(pca2.n_components_)
+# print(pca2.explained_variance_ratio_) 
+# print(pca2.singular_values_)
  
-X_train_pca=pca2.transform(X_scaled_train) 
-X_test_pca=pca2.transform(X_scaled_test) 
+# X_train_pca=pca2.transform(X_scaled_train) 
+# X_test_pca=pca2.transform(X_scaled_test) 
 
 
 # ------------------------------------------------------------- #
 # ----------------- Balancing Dataset------------------------ #
 # ------------------------------------------------------------- #
-from imblearn.over_sampling import SMOTE
-from imblearn.combine import SMOTEENN, SMOTETomek
-from imblearn.pipeline import make_pipeline
-from collections import Counter
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler
- # define oversampling strategy
-sm = SMOTE(sampling_strategy={3:5000}, random_state=7)
-X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
-# oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
-# X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
-print(Counter(Y_ov))
-under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_state=1)
-X_new, Y_new = under.fit_resample(X_ov, Y_ov)
+# from imblearn.over_sampling import SMOTE
+# from imblearn.combine import SMOTEENN, SMOTETomek
+# from imblearn.pipeline import make_pipeline
+# from collections import Counter
+# from imblearn.over_sampling import RandomOverSampler
+# from imblearn.under_sampling import RandomUnderSampler
+#  # define oversampling strategy
+# sm = SMOTE(sampling_strategy={3:5000}, random_state=7)
+# X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
+# # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
+# # X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
+# print(Counter(Y_ov))
+# under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_state=1)
+# X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 
 
 
@@ -216,7 +216,7 @@ from keras.utils import np_utils
 
 # encode class values as integers
 encoder = LabelEncoder()
-encoder.fit(Y_new)
+encoder.fit(Y_train)
 encoded_Y_train= encoder.transform(Y_new)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_train = np_utils.to_categorical(encoded_Y_train)
@@ -242,9 +242,8 @@ def create_model():
     optimizer = SGD(lr=0.001)
 
     model = Sequential()
-    model.add(Dense(12, input_dim=9, activation='sigmoid'))
-    model.add(layers.Dropout(0.5))
-    model.add(Dense(6, activation='sigmoid'))
+    model.add(Dense(18, input_dim=18, activation='relu'))
+    model.add(Dense(4, activation='relu'))
     model.add(Dense(4, activation = 'softmax'))
 
 
@@ -257,7 +256,7 @@ def create_model():
     #   base_model.add(Dense(3, activation='softmax'))
 
     # compile the keras model
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='adam, metrics=['accuracy'])
 
     return model
 model=create_model()
