@@ -258,7 +258,7 @@ from keras.layers import Flatten
 def create_modelCNN():
     X_new.reshape(80000,1,18)
     model = Sequential()
-    model.add(Conv1D(filters=2, kernel_size=1, activation='relu', input_shape=(1,18)))
+    model.add(Conv1D(filters=2, kernel_size=1, activation='relu', input_shape=(18)))
     model.add(Dropout(0.5))
     model.add(Dense(100, activation='relu'))
     model.add(Dense(4, activation='softmax'))
