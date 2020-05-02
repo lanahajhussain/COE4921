@@ -256,10 +256,9 @@ from keras.layers import MaxPooling1D
 from keras.layers import Flatten
 
 def create_modelCNN():
-   
-
+    X_new.reshape(80000,100,18)
     model = Sequential()
-    model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(100,9)))
+    model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(100,18)))
     model.add(Dropout(0.5))
     model.add(MaxPooling1D(pool_size=2))
     model.add(Flatten())
