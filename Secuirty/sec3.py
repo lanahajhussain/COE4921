@@ -217,7 +217,7 @@ plt.savefig('pca2.png')
 
 
 
-pca2=PCA(0.90)
+pca2=PCA(0.95)
 pca2.fit(X_scaled_train)
 pca2.fit(X_scaled_test)
 
@@ -283,7 +283,7 @@ batch_size=16
 def create_model():
 # define the keras model
     model = Sequential()
-    model.add(Dense(9, input_dim=9, activation='sigmoid'))
+    model.add(Dense(10, input_dim=10, activation='sigmoid'))
     # model.add(layers.Dropout(0.5))
     model.add(Dense(4, activation='sigmoid'))
     model.add(Dense(4, activation = 'softmax'))
