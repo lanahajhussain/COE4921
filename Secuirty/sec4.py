@@ -258,7 +258,7 @@ from keras.layers import Flatten
 def create_modelCNN():
    
     model = Sequential()
-    model.add(Conv1D(filters=5, kernel_size=1, activation='relu', input_shape=(1,18)))
+    model.add(Conv1D(filters=18, kernel_size=1, activation='relu', input_shape=(1,18)))
     model.add(Dropout(0.5))
     model.add(MaxPooling1D(pool_size=1))
 
