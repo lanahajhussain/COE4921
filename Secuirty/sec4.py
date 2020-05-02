@@ -256,6 +256,7 @@ from keras.layers import MaxPooling1D
 from keras.layers import Flatten
 
 def create_modelCNN():
+    optimizer=SGD(lr=0.001)
    
 
     model = Sequential()
@@ -264,7 +265,7 @@ def create_modelCNN():
     model.add(Flatten())
     model.add(Dense(100, activation='sigmoid'))
     model.add(Dense(4, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
     model.summary()
     return model
