@@ -188,20 +188,20 @@ Y_test = arr_test[:,18]
 # ------------------------------------------------------------- #
 # ----------------- Balancing Dataset------------------------ #
 # ------------------------------------------------------------- #
-# from imblearn.over_sampling import SMOTE
-# from imblearn.combine import SMOTEENN, SMOTETomek
-# from imblearn.pipeline import make_pipeline
-# from collections import Counter
-# from imblearn.over_sampling import RandomOverSampler
-# from imblearn.under_sampling import RandomUnderSampler
-#  # define oversampling strategy
-# sm = SMOTE(sampling_strategy={3:5000}, random_state=7)
-# X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
-# # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
-# # X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
-# print(Counter(Y_ov))
-# under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_state=1)
-# X_new, Y_new = under.fit_resample(X_ov, Y_ov)
+from imblearn.over_sampling import SMOTE
+from imblearn.combine import SMOTEENN, SMOTETomek
+from imblearn.pipeline import make_pipeline
+from collections import Counter
+from imblearn.over_sampling import RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
+ # define oversampling strategy
+sm = SMOTE(sampling_strategy={3:5000}, random_state=7)
+X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
+# oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
+# X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
+print(Counter(Y_ov))
+under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_state=1)
+X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 
 
 
@@ -216,8 +216,8 @@ from keras.utils import np_utils
 
 # encode class values as integers
 encoder = LabelEncoder()
-encoder.fit(Y_train)
-encoded_Y_train= encoder.transform(Y_train)
+encoder.fit(Y_new)
+encoded_Y_train= encoder.transform(Y_ov)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_train = np_utils.to_categorical(encoded_Y_train)
 
@@ -259,7 +259,7 @@ def create_model():
 
     return model
 model=create_model()
-history = model.fit( X_train,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+history = model.fit(X_new,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
@@ -276,7 +276,8 @@ plot_model(model, to_file='model.png', show_shapes=True,)
 
 
 predictions=model.predict(X_test, batch_size=batch_size)
-print(predictions)
+print(dummy_y_Test.argmax(axis=1))
+print(predictions.argmax(axis=1))
 
 from sklearn.metrics import classification_report
 # evaluate the network
@@ -297,10 +298,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
-print(dummy_y_Test.argmax(axis=1))
-
-print(predictions.argmax(axis=1))
-
 
 print(matrix)
 
