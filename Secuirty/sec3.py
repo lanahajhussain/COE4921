@@ -39,63 +39,63 @@ from sklearn.metrics import precision_recall_curve, roc_curve
 df_intrusion = pd.read_csv('Train_data.csv')
 df_intrusion_t = pd.read_csv('test_data.csv')
 
-# df_intrusion=df_intrusion.drop(["dst_host_srv_rerror_rate"], axis=1)
-# df_intrusion=df_intrusion.drop(["dst_host_rerror_rate"], axis=1)
-# df_intrusion=df_intrusion.drop(["srv_diff_host_rate"], axis=1)
-# df_intrusion=df_intrusion.drop(["srv_rerror_rate"], axis=1)
-# df_intrusion=df_intrusion.drop(["rerror_rate"], axis=1)
+df_intrusion=df_intrusion.drop(["dst_host_srv_rerror_rate"], axis=1)
+df_intrusion=df_intrusion.drop(["dst_host_rerror_rate"], axis=1)
+df_intrusion=df_intrusion.drop(["srv_diff_host_rate"], axis=1)
+df_intrusion=df_intrusion.drop(["srv_rerror_rate"], axis=1)
+df_intrusion=df_intrusion.drop(["rerror_rate"], axis=1)
 
-# df_intrusion=df_intrusion.drop(["is_guest_login"], axis=1)
-# df_intrusion=df_intrusion.drop(["is_host_login"], axis=1)
-# df_intrusion=df_intrusion.drop(["num_outbound_cmds"], axis=1)
-# df_intrusion=df_intrusion.drop(["num_access_files"], axis=1)
-# df_intrusion=df_intrusion.drop(["num_shells"], axis=1)
-# df_intrusion=df_intrusion.drop(["num_file_creations"], axis=1)
-# df_intrusion=df_intrusion.drop(["num_root"], axis=1)
-# df_intrusion=df_intrusion.drop(["su_attempted"], axis=1)
-# df_intrusion=df_intrusion.drop(["root_shell"], axis=1)
+df_intrusion=df_intrusion.drop(["is_guest_login"], axis=1)
+df_intrusion=df_intrusion.drop(["is_host_login"], axis=1)
+df_intrusion=df_intrusion.drop(["num_outbound_cmds"], axis=1)
+df_intrusion=df_intrusion.drop(["num_access_files"], axis=1)
+df_intrusion=df_intrusion.drop(["num_shells"], axis=1)
+df_intrusion=df_intrusion.drop(["num_file_creations"], axis=1)
+df_intrusion=df_intrusion.drop(["num_root"], axis=1)
+df_intrusion=df_intrusion.drop(["su_attempted"], axis=1)
+df_intrusion=df_intrusion.drop(["root_shell"], axis=1)
 
-# df_intrusion=df_intrusion.drop(["num_compromised"], axis=1)
-# df_intrusion=df_intrusion.drop(["num_failed_logins"], axis=1)
-# df_intrusion=df_intrusion.drop(["hot"], axis=1)
-# df_intrusion=df_intrusion.drop(["land"], axis=1)
-# df_intrusion=df_intrusion.drop(["wrong_fragment"], axis=1)
-# df_intrusion=df_intrusion.drop(["duration"], axis=1)
-# df_intrusion=df_intrusion.drop(["urgent"], axis=1)
-
-
+df_intrusion=df_intrusion.drop(["num_compromised"], axis=1)
+df_intrusion=df_intrusion.drop(["num_failed_logins"], axis=1)
+df_intrusion=df_intrusion.drop(["hot"], axis=1)
+df_intrusion=df_intrusion.drop(["land"], axis=1)
+df_intrusion=df_intrusion.drop(["wrong_fragment"], axis=1)
+df_intrusion=df_intrusion.drop(["duration"], axis=1)
+df_intrusion=df_intrusion.drop(["urgent"], axis=1)
 
 
-# df_intrusion_t=df_intrusion_t.drop(["dst_host_srv_rerror_rate"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["dst_host_rerror_rate"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["srv_diff_host_rate"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["srv_rerror_rate"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["rerror_rate"], axis=1)
-
-# df_intrusion_t=df_intrusion_t.drop(["is_guest_login"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["is_host_login"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["num_outbound_cmds"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["num_access_files"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["num_shells"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["num_file_creations"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["num_root"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["su_attempted"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["root_shell"], axis=1)
-
-# df_intrusion_t=df_intrusion_t.drop(["num_compromised"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["num_failed_logins"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["hot"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["land"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["wrong_fragment"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["duration"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["Unnamed: 0"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["urgent"], axis=1)
 
 
-# df_intrusion=df_intrusion.drop(["src_bytes"], axis=1)
-# df_intrusion=df_intrusion.drop(["dst_bytes"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["src_bytes"], axis=1)
-# df_intrusion_t=df_intrusion_t.drop(["dst_bytes"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["dst_host_srv_rerror_rate"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["dst_host_rerror_rate"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["srv_diff_host_rate"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["srv_rerror_rate"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["rerror_rate"], axis=1)
+
+df_intrusion_t=df_intrusion_t.drop(["is_guest_login"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["is_host_login"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["num_outbound_cmds"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["num_access_files"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["num_shells"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["num_file_creations"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["num_root"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["su_attempted"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["root_shell"], axis=1)
+
+df_intrusion_t=df_intrusion_t.drop(["num_compromised"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["num_failed_logins"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["hot"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["land"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["wrong_fragment"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["duration"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["Unnamed: 0"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["urgent"], axis=1)
+
+
+df_intrusion=df_intrusion.drop(["src_bytes"], axis=1)
+df_intrusion=df_intrusion.drop(["dst_bytes"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["src_bytes"], axis=1)
+df_intrusion_t=df_intrusion_t.drop(["dst_bytes"], axis=1)
 
 
 
@@ -195,13 +195,13 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
-sm = SMOTE(sampling_strategy={3:20000}, random_state=1)
+sm = SMOTE(sampling_strategy={3:20000,2:20000}, random_state=1)
 X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
 print(Counter(Y_ov))
 
-# under = RandomUnderSampler(sampling_strategy={0:10000,1:10000,2:10000}, random_state=1)
-# X_new, Y_new = under.fit_resample(X_ov, Y_ov)
-# print(Counter(Y_new))
+under = RandomUnderSampler(sampling_strategy={0:20000,1:20000}, random_state=1)
+X_new, Y_new = under.fit_resample(X_ov, Y_ov)
+print(Counter(Y_new))
 
 # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
 # X_new, Y_new = oversample.fit_resample(X_ov, Y_ov)
@@ -216,8 +216,8 @@ from keras.utils import np_utils
 
 # encode class values as integers
 encoder = LabelEncoder()
-encoder.fit(Y_ov)
-encoded_Y_train= encoder.transform(Y_ov)
+encoder.fit(Y_new)
+encoded_Y_train= encoder.transform(Y_new)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_train = np_utils.to_categorical(encoded_Y_train)
 
@@ -257,7 +257,7 @@ def create_model():
 
     return model
 model=create_model()
-history = model.fit(X_ov,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+history = model.fit(X_new,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
