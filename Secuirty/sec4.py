@@ -256,7 +256,7 @@ from keras.layers import MaxPooling1D
 from keras.layers import Flatten
 
 def create_modelCNN():
-    X_new=X_new.reshape(80000,1,18)
+    X_newer=X_new.reshape(80000,1,18)
     
     model = Sequential()
     model.add(Conv1D(filters=2, kernel_size=1, activation='relu', input_shape=(1,18)))
@@ -266,7 +266,7 @@ def create_modelCNN():
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     model.summary()
-    history = model.fit(X_new,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
+    history = model.fit(X_newer,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
     return model
 
 model=create_modelCNN()
