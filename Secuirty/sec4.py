@@ -258,10 +258,10 @@ from keras.layers import Flatten
 def create_modelCNN():
    
     model = Sequential()
-    model.add(Conv1D(filters=2, kernel_size=1, activation='sigmoid', input_shape=(1,18)))
+    model.add(Conv1D(filters=2, kernel_size=1, activation='relu', input_shape=(1,18)))
     model.add(Dropout(0.5))
     model.add(Flatten())
-    model.add(Dense(54, activation='sigmoid'))
+    model.add(Dense(54, activation='relu'))
     model.add(Dense(4, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
