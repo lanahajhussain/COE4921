@@ -178,7 +178,7 @@ print ("after scaling minimum", X_scaled_test.min(axis=0) )
 
 Ratio=[]
 Ratio1=[]
-for i in range(1,18):
+for i in range(1,17):
     pcatest = PCA(n_components=i) 
     pcatest.fit(X_scaled_train)
     PCA(copy=True, iterated_power='auto', n_components=i, random_state=None, 
