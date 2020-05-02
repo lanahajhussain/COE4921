@@ -141,8 +141,8 @@ df_intrusion_t.xAttack= [1 if each == "dos"
 # for neural network
 
 # convert the array into a numpy array
-arr_train = data.to_numpy()
-arr_test = datat.to_numpy()
+arr_train = df_intrusion.to_numpy()
+arr_test = df_intrusion_t.to_numpy()
 
 # separate X and Y
 X_train = arr_train[:,0:18]
