@@ -324,20 +324,8 @@ from keras.layers import Dropout
 from keras.layers import MaxPooling1D
 from keras.layers import Flatten
 
-def create_modelCNN():
-    encoder = LabelEncoder()
 
-    encoder.fit(X_new)
-    encoded_X_test= encoder.transform(X_new)
-    X_new_CNN = np_utils.to_categorical(X_new)
-
-    encoder = LabelEncoder()
-    encoder.fit(X_test_pca)
-    encoded_X_test= encoder.transform(X_test_pca)
-    X_test_pca_CNN = np_utils.to_categorical(encoded_Y_test)
-
-    print("hhh",X_new_CNN)
-    print("hhh",X_new_CNN.shape)
+   
 
     model = Sequential()
     model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(9)))
@@ -353,7 +341,7 @@ def create_modelCNN():
     history = model.fit(X_new_CNN,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
     return model
 
-model=create_modelCNN()
+model=create_model()
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
 # ------------------------------------------------------------- #
