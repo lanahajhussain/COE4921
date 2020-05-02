@@ -139,16 +139,22 @@ df_intrusion_t.xAttack= [1 if each == "dos"
 
 # Create two pandas arrays -- one for X and one for Y to get ready 
 # for neural network
+data=((df_intrusion-df_intrusion.min())/(df_intrusion.max()-df_intrusion.min()))
 
 
-df=pd.get_dummies(df_intrusion)
+df=pd.get_dummies(data)
 print(df.head)
 print(df.shape)
 
+datat=((df_intrusion_t-df_intrusion_t.min())/(df_intrusion_t.max()-df_intrusion_t.min()))
 
-dft=pd.get_dummies(df_intrusion_t)
+
+dft=pd.get_dummies(datat)
 print(dft.head)
 print(dft.shape)
+
+
+np.linalg.norm(a_s[-1]-y_batch)
 
 # # convert the array into a numpy array
 # arr_train = df_intrusion.to_numpy()
