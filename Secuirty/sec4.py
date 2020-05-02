@@ -263,7 +263,7 @@ def create_modelCNN():
     model.add(MaxPooling1D(pool_size=1))
 
     model.add(Flatten())
-    model.add(Dense(108, activation='relu'))
+    model.add(Dense(54, activation='relu'))
     model.add(Dense(4, activation='softmax'))
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
