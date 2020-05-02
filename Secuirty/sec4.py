@@ -206,27 +206,27 @@ print(Counter(Y_new))
 # # ------------------------------------------------------------- #
 # # ---------------------- Encoding Data ------------------------- #
 # # ------------------------------------------------------------- #
-# # Prepare Y values for one-hot encoding
+Prepare Y values for one-hot encoding
 
-# from sklearn.preprocessing import LabelEncoder
-# from keras.utils import np_utils
+from sklearn.preprocessing import LabelEncoder
+from keras.utils import np_utils
 
-# # encode class values as integers
-# encoder = LabelEncoder()
-# encoder.fit(Y_new)
-# encoded_Y_train= encoder.transform(Y_new)
-# # convert integers to dummy variables (i.e. one hot encoded)
-# dummy_y_train = np_utils.to_categorical(encoded_Y_train)
-# # encode class values as integers
-# encoder = LabelEncoder()
-# encoder.fit(Y_test)
-# encoded_Y_test= encoder.transform(Y_test)
-# # convert integers to dummy variables (i.e. one hot encoded)
-# dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
+# encode class values as integers
+encoder = LabelEncoder()
+encoder.fit(Y_new)
+encoded_Y_train= encoder.transform(Y_new)
+# convert integers to dummy variables (i.e. one hot encoded)
+dummy_y_train = np_utils.to_categorical(encoded_Y_train)
+# encode class values as integers
+encoder = LabelEncoder()
+encoder.fit(Y_test)
+encoded_Y_test= encoder.transform(Y_test)
+# convert integers to dummy variables (i.e. one hot encoded)
+dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
 
-# print(dummy_y_train)
-# print(dummy_y_Test)
+print(dummy_y_train)
+print(dummy_y_Test)
 
 # print('X_new',X_new)
 # print('X_test_pca',X_test_pca)
