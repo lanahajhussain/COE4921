@@ -238,7 +238,7 @@ num_epochs=10
 batch_size=32
 def create_model():
 # define the keras model
-    # optimizer = SGD(lr=0.001)
+    optimizer = SGD(lr=0.001)
 
     model = Sequential()
     model.add(Dense(18, input_dim=18, activation='relu'))
@@ -246,16 +246,15 @@ def create_model():
     model.add(Dense(4, activation = 'softmax'))
 
 
-    #   base_model = Sequential()
-    #   base_model.add(Flatten(input_shape=input_shape))  # this converts our 3D feature maps to 1D feature vectors
-    #   base_model.add(Dense(256, activation='relu'))
-    #   base_model.add(Dense(256, activation='relu'))
-    #   base_model.add(Dense(128, activation='relu'))
-    #   base_model.add(Dense(64, activation='relu'))
-    #   base_model.add(Dense(3, activation='softmax'))
+    model = Sequential()
+    model.add(Dense(18, input_dim=18, activation='sigmoid'))
+    model.add(layers.Dropout(0.5))
+    model.add(Dense(8, activation='sigmoid'))
+    model.add(Dense(4, activation = 'sigmoid'))
+    model.add(Dense(4, activation = 'softmax'))
 
     # compile the keras model
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
 
     return model
 model=create_model()
