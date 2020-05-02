@@ -146,7 +146,7 @@ arr_test = df_intrusion_t.to_numpy()
 
 # separate X and Y
 X_train = arr_train[:,0:18]
-X_train=np.linalg.norm(X_train).reshape(-1,1)
+X_train=np.linalg.norm(X_train[i]).reshape(-1,1) for i in range(18)
 Y_train = arr_train[:,18]
 
 
