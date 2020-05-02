@@ -140,34 +140,21 @@ df_intrusion_t.xAttack= [1 if each == "dos"
 # Create two pandas arrays -- one for X and one for Y to get ready 
 # for neural network
 data=((df_intrusion-df_intrusion.min())/(df_intrusion.max()-df_intrusion.min()))
-
-
-df=pd.get_dummies(data)
-print(df.head)
-print(df.shape)
-
 datat=((df_intrusion_t-df_intrusion_t.min())/(df_intrusion_t.max()-df_intrusion_t.min()))
 
 
-dft=pd.get_dummies(datat)
-print(dft.head)
-print(dft.shape)
+# convert the array into a numpy array
+arr_train = data.to_numpy()
+arr_test = datat.to_numpy()
+
+# separate X and Y
+X_train = arr_train[:,0:18]
+Y_train = arr_train[:,18]
 
 
-np.linalg.norm(a_s[-1]-y_batch)
-
-# # convert the array into a numpy array
-# arr_train = df_intrusion.to_numpy()
-# arr_test = df_intrusion_t.to_numpy()
-
-# # separate X and Y
-# X_train = arr_train[:,0:18]
-# Y_train = arr_train[:,18]
-
-
-# # separate X and Y
-# X_test = arr_test[:,0:18]
-# Y_test = arr_test[:,18]
+# separate X and Y
+X_test = arr_test[:,0:18]
+Y_test = arr_test[:,18]
 
 # # ------------------------------------------------------------- #
 # # ----------------- Feature Selection ------------------------- #
@@ -195,26 +182,26 @@ np.linalg.norm(a_s[-1]-y_batch)
 # # X_train_pca=pca2.transform(X_scaled_train) 
 # # X_test_pca=pca2.transform(X_scaled_test) 
 
-# # ------------------------------------------------------------- #
-# # ----------------- Balancing Dataset------------------------ #
-# # ------------------------------------------------------------- #
-# from imblearn.over_sampling import SMOTE
-# from imblearn.combine import SMOTEENN, SMOTETomek
-# from imblearn.pipeline import make_pipeline
-# from collections import Counter
-# from imblearn.over_sampling import RandomOverSampler
-# from imblearn.under_sampling import RandomUnderSampler
-#  # define oversampling strategy
-# sm = SMOTE(sampling_strategy={3:20000,2:20000}, random_state=1)
-# X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
-# print(Counter(Y_ov))
+# ------------------------------------------------------------- #
+# ----------------- Balancing Dataset------------------------ #
+# ------------------------------------------------------------- #
+from imblearn.over_sampling import SMOTE
+from imblearn.combine import SMOTEENN, SMOTETomek
+from imblearn.pipeline import make_pipeline
+from collections import Counter
+from imblearn.over_sampling import RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
+ # define oversampling strategy
+sm = SMOTE(sampling_strategy={3:20000,2:20000}, random_state=1)
+X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
+print(Counter(Y_ov))
 
-# under = RandomUnderSampler(sampling_strategy={0:20000,1:20000}, random_state=1)
-# X_new, Y_new = under.fit_resample(X_ov, Y_ov)
-# print(Counter(Y_new))
+under = RandomUnderSampler(sampling_strategy={0:20000,1:20000}, random_state=1)
+X_new, Y_new = under.fit_resample(X_ov, Y_ov)
+print(Counter(Y_new))
 
-# # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
-# # X_new, Y_new = oversample.fit_resample(X_ov, Y_ov)
+# oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
+# X_new, Y_new = oversample.fit_resample(X_ov, Y_ov)
 
 # # ------------------------------------------------------------- #
 # # ---------------------- Encoding Data ------------------------- #
@@ -243,194 +230,194 @@ np.linalg.norm(a_s[-1]-y_batch)
 
 # print('X_new',X_new)
 # print('X_test_pca',X_test_pca)
-# # ------------------------------------------------------------- #
-# # ---------------------- Create Model ------------------------- #
-# # ------------------------------------------------------------- #
-# num_epochs=20
-# batch_size=16
-# from keras.layers import Input, Dense
+# ------------------------------------------------------------- #
+# ---------------------- Create Model ------------------------- #
+# ------------------------------------------------------------- #
+num_epochs=20
+batch_size=16
+from keras.layers import Input, Dense
 
-# from keras.models import Sequential
-# from keras.layers import Dense
-# from keras.layers import Conv1D
-# from keras.layers import Dropout
-# from keras.layers import MaxPooling1D
-# from keras.layers import Flatten
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Conv1D
+from keras.layers import Dropout
+from keras.layers import MaxPooling1D
+from keras.layers import Flatten
 
-# def create_modelCNN():
+def create_modelCNN():
    
 
-#     model = Sequential()
-#     model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(9)))
-#     model.add(Dropout(0.5))
-#     model.add(MaxPooling1D(pool_size=2))
-#     model.add(Flatten())
-#     model.add(Dense(100, activation='relu'))
-#     model.add(Dense(4, activation='softmax'))
-#     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    model = Sequential()
+    model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(9)))
+    model.add(Dropout(0.5))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Flatten())
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(4, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-#     model.summary()
-#     model=create_model()
-#     history = model.fit(X_new_CNN,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
-#     return model
+    model.summary()
+    model=create_model()
+    history = model.fit(X_new,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
+    return model
 
-# model=create_modelCNN()
-# # ------------------------------------------------------------- #
-# # ----------------- Model Visualization------------------------ #
-# # ------------------------------------------------------------- #
+model=create_modelCNN()
+# ------------------------------------------------------------- #
+# ----------------- Model Visualization------------------------ #
+# ------------------------------------------------------------- #
 
-# from keras.utils import plot_model
-# plot_model(model, to_file='model.png', show_shapes=True,)
-
-
-
-# # ------------------------------------------------------------- #
-# # ----------------- Performance Metrics------------------------ #
-# # ------------------------------------------------------------- #
-
-
-# predictions=model.predict(X_test_pca, batch_size=batch_size)
-# print(dummy_y_Test.argmax(axis=1))
-# print(predictions.argmax(axis=1))
-
-# from sklearn.metrics import classification_report
-# # evaluate the network
-# print("[INFO] evaluating network...")
-# print(classification_report(dummy_y_Test.argmax(axis=1),
-#                             predictions.argmax(axis=1)))
+from keras.utils import plot_model
+plot_model(model, to_file='model.png', show_shapes=True,)
 
 
 
-# # ------------------------------------------------------------- #
-# # ----------------- Confusion Matrix--------------------------- #
-# # ------------------------------------------------------------- #
-# class_names=['normal','dos','probe','r2l']
-# # Plot non-normalized confusion matrix
-# from sklearn.metrics import confusion_matrix
-# import seaborn as sn
-# import pandas as pd
-# import matplotlib.pyplot as plt
+# ------------------------------------------------------------- #
+# ----------------- Performance Metrics------------------------ #
+# ------------------------------------------------------------- #
 
-# matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
 
-# print(matrix)
+predictions=model.predict(X_test, batch_size=batch_size)
+print(dummy_y_Test.argmax(axis=1))
+print(predictions.argmax(axis=1))
 
-# plt.figure(5)
-
-# df_cm = pd.DataFrame(matrix,  index = [i for i in class_names],
-#                   columns = [i for i in class_names])
-# plt.figure(figsize=(10,7))
-# sn.set(font_scale=1.4) # for label size
-# sn.heatmap(df_cm, annot=True, annot_kws={"size": 16}) # font size
-
-# plt.savefig('conf.png')
-
-# # ------------------------------------------------------------- #
-# # ----------------------- ROC CURVE --------------------------- #
-# # ------------------------------------------------------------- #
-
-# # Plot linewidth.
-# lw = 2
-# n_classes = 3
-
-# # Compute ROC curve and ROC area for each class
-# fpr = dict()
-# tpr = dict()
-# roc_auc = dict()
-# for i in range(n_classes):
-#     fpr[i], tpr[i], _ = roc_curve(dummy_y_Test[:, i], predictions[:, i])
-#     roc_auc[i] = auc(fpr[i], tpr[i])
-# # Compute micro-average ROC curve and ROC area
-# fpr["micro"], tpr["micro"], _ = roc_curve(dummy_y_Test.ravel(), predictions.ravel())
-# roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
-# # Compute macro-average ROC curve and ROC area
-
-# # First aggregate all false positive rates
-# all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))
-
-# # Then interpolate all ROC curves at this points
-# mean_tpr = np.zeros_like(all_fpr)
-# for i in range(n_classes):
-#     mean_tpr += interp(all_fpr, fpr[i], tpr[i])
-
-# # Finally average it and compute AUC
-# mean_tpr /= n_classes
-
-# fpr["macro"] = all_fpr
-# tpr["macro"] = mean_tpr
-# roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
-
-# # Plot all ROC curves
-# plt.figure(1)
-# plt.plot(fpr["micro"], tpr["micro"],
-#          label='micro-average ROC curve (area = {0:0.2f})'
-#                ''.format(roc_auc["micro"]),
-#          color='deeppink', linestyle=':', linewidth=4)
-
-# plt.plot(fpr["macro"], tpr["macro"],
-#          label='macro-average ROC curve (area = {0:0.2f})'
-#                ''.format(roc_auc["macro"]),
-#          color='navy', linestyle=':', linewidth=4)
-
-# colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
-# for i, color in zip(range(n_classes), colors):
-#     plt.plot(fpr[i], tpr[i], color=color, lw=lw,
-#              label='ROC curve of class {0} (area = {1:0.2f})'
-#              ''.format(class_names[i], roc_auc[i]))
-
-# plt.plot([0, 1], [0, 1], 'k--', lw=lw)
-# plt.xlim([0.0, 1.0])
-# plt.ylim([0.0, 1.05])
-# plt.xlabel('False Positive Rate')
-# plt.ylabel('True Positive Rate')
-# plt.title('Some extension of Receiver operating characteristic to multi-class')
-# plt.legend(loc="lower right")
-# plt.savefig('roc.png')
+from sklearn.metrics import classification_report
+# evaluate the network
+print("[INFO] evaluating network...")
+print(classification_report(dummy_y_Test.argmax(axis=1),
+                            predictions.argmax(axis=1)))
 
 
 
-# # ------------------------------------------------------------- #
-# # ----------------------- PR CURVE --------------------------- #
-# # ------------------------------------------------------------- #
-# plt.figure(3)
-# # precision recall curve
-# precision = dict()
-# recall = dict()
-# pr_auc = dict()
-# for i in range(n_classes):
-#     precision[i], recall[i], _ = precision_recall_curve(dummy_y_Test[:, i],
-#                                                             predictions[:, i])
-#     pr_auc[i] = auc(recall[i], precision[i])
+# ------------------------------------------------------------- #
+# ----------------- Confusion Matrix--------------------------- #
+# ------------------------------------------------------------- #
+class_names=['normal','dos','probe','r2l']
+# Plot non-normalized confusion matrix
+from sklearn.metrics import confusion_matrix
+import seaborn as sn
+import pandas as pd
+import matplotlib.pyplot as plt
 
-# colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
-# for i, color in zip(range(n_classes), colors):
-#     plt.plot(recall[i], precision[i], color=color, lw=lw,
-#              label='PR curve of class {0} (area = {1:0.2f})'
-#              ''.format(class_names[i], pr_auc[i]))
+matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
+
+print(matrix)
+
+plt.figure(5)
+
+df_cm = pd.DataFrame(matrix,  index = [i for i in class_names],
+                  columns = [i for i in class_names])
+plt.figure(figsize=(10,7))
+sn.set(font_scale=1.4) # for label size
+sn.heatmap(df_cm, annot=True, annot_kws={"size": 16}) # font size
+
+plt.savefig('conf.png')
+
+# ------------------------------------------------------------- #
+# ----------------------- ROC CURVE --------------------------- #
+# ------------------------------------------------------------- #
+
+# Plot linewidth.
+lw = 2
+n_classes = 3
+
+# Compute ROC curve and ROC area for each class
+fpr = dict()
+tpr = dict()
+roc_auc = dict()
+for i in range(n_classes):
+    fpr[i], tpr[i], _ = roc_curve(dummy_y_Test[:, i], predictions[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+# Compute micro-average ROC curve and ROC area
+fpr["micro"], tpr["micro"], _ = roc_curve(dummy_y_Test.ravel(), predictions.ravel())
+roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+# Compute macro-average ROC curve and ROC area
+
+# First aggregate all false positive rates
+all_fpr = np.unique(np.concatenate([fpr[i] for i in range(n_classes)]))
+
+# Then interpolate all ROC curves at this points
+mean_tpr = np.zeros_like(all_fpr)
+for i in range(n_classes):
+    mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+
+# Finally average it and compute AUC
+mean_tpr /= n_classes
+
+fpr["macro"] = all_fpr
+tpr["macro"] = mean_tpr
+roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
+
+# Plot all ROC curves
+plt.figure(1)
+plt.plot(fpr["micro"], tpr["micro"],
+         label='micro-average ROC curve (area = {0:0.2f})'
+               ''.format(roc_auc["micro"]),
+         color='deeppink', linestyle=':', linewidth=4)
+
+plt.plot(fpr["macro"], tpr["macro"],
+         label='macro-average ROC curve (area = {0:0.2f})'
+               ''.format(roc_auc["macro"]),
+         color='navy', linestyle=':', linewidth=4)
+
+colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+for i, color in zip(range(n_classes), colors):
+    plt.plot(fpr[i], tpr[i], color=color, lw=lw,
+             label='ROC curve of class {0} (area = {1:0.2f})'
+             ''.format(class_names[i], roc_auc[i]))
+
+plt.plot([0, 1], [0, 1], 'k--', lw=lw)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel('False Positive Rate')
+plt.ylabel('True Positive Rate')
+plt.title('Some extension of Receiver operating characteristic to multi-class')
+plt.legend(loc="lower right")
+plt.savefig('roc.png')
+
+
+
+# ------------------------------------------------------------- #
+# ----------------------- PR CURVE --------------------------- #
+# ------------------------------------------------------------- #
+plt.figure(3)
+# precision recall curve
+precision = dict()
+recall = dict()
+pr_auc = dict()
+for i in range(n_classes):
+    precision[i], recall[i], _ = precision_recall_curve(dummy_y_Test[:, i],
+                                                            predictions[:, i])
+    pr_auc[i] = auc(recall[i], precision[i])
+
+colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+for i, color in zip(range(n_classes), colors):
+    plt.plot(recall[i], precision[i], color=color, lw=lw,
+             label='PR curve of class {0} (area = {1:0.2f})'
+             ''.format(class_names[i], pr_auc[i]))
     
-#     # plt.plot([1, 0], [0, 1], 'k--', lw=lw)
-# plt.xlim([0.0, 1.0])
-# plt.ylim([0.0, 1.05])    
-# plt.xlabel("recall")
-# plt.ylabel("precision")
-# plt.legend(loc="best")
-# plt.title("precision vs. recall curve")
-# plt.savefig('PR.png')
+    # plt.plot([1, 0], [0, 1], 'k--', lw=lw)
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])    
+plt.xlabel("recall")
+plt.ylabel("precision")
+plt.legend(loc="best")
+plt.title("precision vs. recall curve")
+plt.savefig('PR.png')
 
-# # ------------------------------------------------------------- #
-# # ---------------- Training Validation CURVE ------------------ #
-# # ------------------------------------------------------------- #
-# # plot the training loss and accuracy (if --plot output file specified in arguments)
-# plt.figure(4)
-# N = np.arange(0, num_epochs)
-# plt.style.use("ggplot")
-# plt.plot(N, history.history["loss"], label="train_loss")
-# plt.plot(N, history.history["val_loss"], label="val_loss")
-# plt.plot(N, history.history["accuracy"], label="train_accuracy")
-# plt.plot(N, history.history["val_accuracy"], label="val_accuracy")
-# plt.title("Training Loss and Accuracy (Simple NN)")
-# plt.xlabel("Epoch \#")
-# print("Plot of training/validation loss and accuracy saved!")
-# plt.ylabel("Loss/Accuracy")
-# plt.legend()
-# plt.savefig('acc.png')
+# ------------------------------------------------------------- #
+# ---------------- Training Validation CURVE ------------------ #
+# ------------------------------------------------------------- #
+# plot the training loss and accuracy (if --plot output file specified in arguments)
+plt.figure(4)
+N = np.arange(0, num_epochs)
+plt.style.use("ggplot")
+plt.plot(N, history.history["loss"], label="train_loss")
+plt.plot(N, history.history["val_loss"], label="val_loss")
+plt.plot(N, history.history["accuracy"], label="train_accuracy")
+plt.plot(N, history.history["val_accuracy"], label="val_accuracy")
+plt.title("Training Loss and Accuracy (Simple NN)")
+plt.xlabel("Epoch \#")
+print("Plot of training/validation loss and accuracy saved!")
+plt.ylabel("Loss/Accuracy")
+plt.legend()
+plt.savefig('acc.png')
