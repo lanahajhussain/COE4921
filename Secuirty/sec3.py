@@ -178,7 +178,7 @@ print ("after scaling minimum", X_scaled_test.min(axis=0) )
 
 Ratio=[]
 Ratio1=[]
-for i in range(1,18):
+for i in range(1,19):
     pcatest = PCA(n_components=i) 
     pcatest.fit(X_scaled_train)
     PCA(copy=True, iterated_power='auto', n_components=i, random_state=None, 
@@ -192,8 +192,8 @@ print()
 print(Ratio1)
 
 plt.figure(50)
-components= np.linspace(1,17, num=17)
-plt.figure(figsize=(30,10))
+components= np.linspace(1,18 num=18)
+plt.figure(figsize=(20,10))
 ax = sns.barplot(x=components, y=Ratio)
 ax.set(title="Cumulative sum of variance",xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
 plt.savefig('pca1.png')
