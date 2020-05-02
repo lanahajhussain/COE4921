@@ -157,6 +157,45 @@ Y_test = arr_test[:,18]
 # ----------------- Feature Selection ------------------------- #
 # ------------------------------------------------------------- #
 
+scaler=StandardScaler()#instantiate
+scaler.fit(X_train) # compute the mean and standard which will be used in the next command
+X_scaled=scaler.transform(X)# fit and transform can be applied together and I leave that for simple exercise
+# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
+print ("after scaling minimum", X_scaled.min(axis=0) )
+
+ 
+Ratio=[]
+Ratio1=[]
+for i in range(1,18):
+    pcatest = PCA(n_components=i) 
+    pcatest.fit(X_scaled)
+    PCA(copy=True, iterated_power='auto', n_components=i, random_state=None, 
+    svd_solver='auto', tol=0.0, whiten=False)
+    Ratio.append(round(pcatest.explained_variance_ratio_.sum(),i)*100)
+    Ratio1.append(pcatest.explained_variance_ratio_[i-1]*100)
+#     pca.explained_variance_ratio_
+    print('\n n_components= ',i,pcatest.explained_variance_ratio_) 
+#     print(pca.singular_values_) 
+print()
+print(Ratio1)
+
+plt.figure(50)
+components= np.linspace(1,18, num=18)
+plt.figure(figsize=(30,10))
+ax = sns.barplot(x=components, y=Ratio)
+ax.set(title="Cumulative sum of variance",xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
+plt.savefig('pca1.png')
+plt.figure(55)
+
+plt.figure(figsize=(20,5))
+ax2 = sns.barplot(x=components, y=Ratio1)
+ax2.set(title='Amount of variance explained by each PC',xlabel="Number of princple componenets",ylabel="Explained Variance Ratio")
+plt.savefig('pca2.png')
+
+
+
+
+
 # Dimensionality Reduction 
 from sklearn.decomposition import PCA 
 from sklearn.preprocessing import StandardScaler
