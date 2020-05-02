@@ -195,7 +195,7 @@ from collections import Counter
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
-sm = SMOTE(sampling_strategy={3:5000,4:5000}, random_state=7)
+sm = SMOTE(sampling_strategy={3:5000}, random_state=7)
 X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
 # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
 # X_new, Y_new = oversample.fit_resample(X_train, dummy_y_train)
@@ -246,7 +246,7 @@ def create_model():
     model.add(layers.Dropout(0.5))
     model.add(Dense(6, activation='sigmoid'))
     model.add(Dense(3, activation = 'sigmoid'))
-    model.add(Dense(5, activation = 'softmax'))
+    model.add(Dense(4, activation = 'softmax'))
 
 
     #   base_model = Sequential()
@@ -292,7 +292,7 @@ print(classification_report(dummy_y_Test.argmax(axis=1),
 # ------------------------------------------------------------- #
 # ----------------- Confusion Matrix--------------------------- #
 # ------------------------------------------------------------- #
-class_names=['normal','dos','probe','u2r','r2l']
+class_names=['normal','dos','probe','r2l']
 # Plot non-normalized confusion matrix
 from sklearn.metrics import confusion_matrix
 import seaborn as sn
