@@ -247,10 +247,9 @@ def create_model():
 
 
     model = Sequential()
-    model.add(Dense(18, input_dim=18, activation='sigmoid'))
+    model.add(Dense(18, input_dim=18, activation='relu'))
     model.add(layers.Dropout(0.5))
-    model.add(Dense(8, activation='sigmoid'))
-    model.add(Dense(4, activation = 'sigmoid'))
+    model.add(Dense(8, activation='relu'))
     model.add(Dense(4, activation = 'softmax'))
 
     # compile the keras model
