@@ -284,24 +284,25 @@ from keras.layers import Input, Dense
 
 def create_model():
 # define the keras model
-    # model = Sequential()
-    # model.add(Dense(11, input_dim=11, activation='sigmoid'))
-    # # model.add(layers.Dropout(0.5))
-    # model.add(Dense(4, activation='sigmoid'))
-    # model.add(Dense(4, activation = 'softmax'))
-    encoding_dim = 36  # 32 floats -> compression of factor 24.5, assuming the input is 784 floats
-    input_data = Input(shape=(9,))
-    encoded = Dense(encoding_dim, activation='relu')(input_data)
-    decoded = Dense(9, activation='sigmoid')(encoded)
-    autoencoder = Model(input_data, decoded)
-    encoder = Model(input_data, encoded)
-    encoded_input = Input(shape=(encoding_dim,))
-    decoder_layer = autoencoder.layers[-1]
-    decoder = Model(encoded_input, decoder_layer(encoded_input))
-    autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
-    return autoencoder
-
-
+    model = Sequential()
+    model.add(Dense(11, input_dim=11, activation='sigmoid'))
+    # model.add(layers.Dropout(0.5))
+    model.add(Dense(4, activation='sigmoid'))
+    model.add(Dense(4, activation = 'softmax'))
+ 
+    # encoding_dim = 36  # 32 floats -> compression of factor 24.5, assuming the input is 784 floats
+    # input_data = Input(shape=(9,))
+    # encoded = Dense(encoding_dim, activation='relu')(input_data)
+    # decoded = Dense(9, activation='sigmoid')(encoded)
+    # autoencoder = Model(input_data, decoded)
+    # encoder = Model(input_data, encoded)
+    # encoded_input = Input(shape=(encoding_dim,))
+    # decoder_layer = autoencoder.layers[-1]
+    # decoder = Model(encoded_input, decoder_layer(encoded_input))
+    # autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+    
+    
+    # return autoencoder
 
 
     # model = Sequential()
@@ -311,12 +312,33 @@ def create_model():
     # model.add(Dense(4, activation = 'softmax'))
 
     # compile the keras model
-    # model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+     return model
 
-    # return model
-model=create_model()
-history = model.fit(X_new,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Conv1D
+from keras.layers import Dropout
+from keras.layers import MaxPooling1D
+from keras.layers import Flatten
 
+def create_modelCNN():
+    
+    model = Sequential()
+    model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(9)))
+    model.add(Dropout(0.5))
+    model.add(MaxPooling1D(pool_size=2))
+    model.add(Flatten())
+    model.add(Dense(100, activation='relu'))
+    model.add(Dense(n_outputs, activation='softmax'))
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    model.summary()
+    model=create_model()
+    history = model.fit(X_new,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
+    return model
+
+model=create_modelCNN()
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
 # ------------------------------------------------------------- #
