@@ -146,13 +146,13 @@ arr_test = df_intrusion_t.to_numpy()
 
 # separate X and Y
 X_train = arr_train[:,0:18]
-X_train=np.linalg.norm(X_train)
+X_train=np.linalg.norm(X_train).reshape(-1,1)
 Y_train = arr_train[:,18]
 
 
 # separate X and Y
 X_test = arr_test[:,0:18]
-X_test=np.linalg.norm(X_test)
+X_train=np.linalg.norm(X_train).reshape(-1,1)
 Y_test = arr_test[:,18]
 
 # # ------------------------------------------------------------- #
