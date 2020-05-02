@@ -157,32 +157,32 @@ Y_test = arr_test[:,18]
 # ----------------- Feature Selection ------------------------- #
 # ------------------------------------------------------------- #
 
-# # Dimensionality Reduction 
-# from sklearn.decomposition import PCA 
-# from sklearn.preprocessing import StandardScaler
+# Dimensionality Reduction 
+from sklearn.decomposition import PCA 
+from sklearn.preprocessing import StandardScaler
 
 
-# scaler=StandardScaler()#instantiate
-# scaler.fit(X_train) # compute the mean and standard which will be used in the next command
-# X_scaled_train=scaler.transform(X_train)# fit and transform can be applied together and I leave that for simple exercise
-# scaler.fit(X_test) # compute the mean and standard which will be used in the next command
-# X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
+scaler=StandardScaler()#instantiate
+scaler.fit(X_train) # compute the mean and standard which will be used in the next command
+X_scaled_train=scaler.transform(X_train)# fit and transform can be applied together and I leave that for simple exercise
+scaler.fit(X_test) # compute the mean and standard which will be used in the next command
+X_scaled_test=scaler.transform(X_test)# fit and transform can be applied together and I leave that for simple exercise
 
-# # we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
-# print ("after scaling minimum", X_scaled_train.min(axis=0) )
-# print ("after scaling minimum", X_scaled_test.min(axis=0) )
+# we can check the minimum and maximum of the scaled features which we expect to be 0 and 1
+print ("after scaling minimum", X_scaled_train.min(axis=0) )
+print ("after scaling minimum", X_scaled_test.min(axis=0) )
 
 
-# pca2=PCA(0.90)
-# pca2.fit(X_scaled_train)
-# pca2.fit(X_scaled_test)
+pca2=PCA(0.90)
+pca2.fit(X_scaled_train)
+pca2.fit(X_scaled_test)
 
-# print(pca2.n_components_)
-# print(pca2.explained_variance_ratio_) 
-# print(pca2.singular_values_)
+print(pca2.n_components_)
+print(pca2.explained_variance_ratio_) 
+print(pca2.singular_values_)
  
-# X_train_pca=pca2.transform(X_scaled_train) 
-# X_test_pca=pca2.transform(X_scaled_test) 
+X_train_pca=pca2.transform(X_scaled_train) 
+X_test_pca=pca2.transform(X_scaled_test) 
 
 
 # ------------------------------------------------------------- #
@@ -196,7 +196,7 @@ from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
  # define oversampling strategy
 sm = SMOTE(sampling_strategy={3:20000,2:20000}, random_state=1)
-X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
+X_ov,Y_ov=sm.fit_resample(X_train_pca, Y_train)
 print(Counter(Y_ov))
 
 under = RandomUnderSampler(sampling_strategy={0:20000,1:20000}, random_state=1)
@@ -241,7 +241,7 @@ def create_model():
     optimizer = SGD(lr=0.001)
 
     model = Sequential()
-    model.add(Dense(18, input_dim=18, activation='relu'))
+    model.add(Dense(8, input_dim=8, activation='relu'))
     model.add(Dense(4, activation='relu'))
     model.add(Dense(4, activation = 'softmax'))
 
@@ -273,7 +273,7 @@ plot_model(model, to_file='model.png', show_shapes=True,)
 # ------------------------------------------------------------- #
 
 
-predictions=model.predict(X_test, batch_size=batch_size)
+predictions=model.predict(X_test_pca, batch_size=batch_size)
 print(dummy_y_Test.argmax(axis=1))
 print(predictions.argmax(axis=1))
 
