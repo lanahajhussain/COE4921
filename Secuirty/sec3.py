@@ -235,8 +235,8 @@ dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
-num_epochs=100
-batch_size=10
+num_epochs=10
+batch_size=32
 def create_model():
 # define the keras model
     optimizer = SGD(lr=0.001)
@@ -256,7 +256,7 @@ def create_model():
     #   base_model.add(Dense(3, activation='softmax'))
 
     # compile the keras model
-    model.compile(loss='categorical_crossentropy', optimizer='adam, metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     return model
 model=create_model()
