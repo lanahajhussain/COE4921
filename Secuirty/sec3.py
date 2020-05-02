@@ -217,7 +217,7 @@ plt.savefig('pca2.png')
 
 
 
-pca2=PCA(0.95)
+pca2=PCA(0.90)
 pca2.fit(X_scaled_train)
 pca2.fit(X_scaled_test)
 
@@ -282,11 +282,24 @@ num_epochs=20
 batch_size=16
 def create_model():
 # define the keras model
-    model = Sequential()
-    model.add(Dense(11, input_dim=11, activation='sigmoid'))
-    # model.add(layers.Dropout(0.5))
-    model.add(Dense(4, activation='sigmoid'))
-    model.add(Dense(4, activation = 'softmax'))
+    # model = Sequential()
+    # model.add(Dense(11, input_dim=11, activation='sigmoid'))
+    # # model.add(layers.Dropout(0.5))
+    # model.add(Dense(4, activation='sigmoid'))
+    # model.add(Dense(4, activation = 'softmax'))
+    encoding_dim = 36  # 32 floats -> compression of factor 24.5, assuming the input is 784 floats
+    input_data = Input(shape=(18,))
+    encoded = Dense(encoding_dim, activation='relu')(input_data)
+    decoded = Dense(9, activation='sigmoid')(encoded)
+    autoencoder = Model(input_data, decoded)
+    encoder = Model(input_data, encoded)
+    encoded_input = Input(shape=(encoding_dim,))
+    decoder_layer = autoencoder.layers[-1]
+    decoder = Model(encoded_input, decoder_layer(encoded_input))
+    autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+    return autoencoder
+
+
 
 
     # model = Sequential()
@@ -296,9 +309,9 @@ def create_model():
     # model.add(Dense(4, activation = 'softmax'))
 
     # compile the keras model
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    # model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-    return model
+    # return model
 model=create_model()
 history = model.fit(X_new,dummy_y_train, validation_split=0.20, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
