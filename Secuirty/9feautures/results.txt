@@ -1,0 +1,39 @@
+num_epochs=10
+batch_size=32
+def create_model():
+# define the keras model
+    optimizer = SGD(lr=0.001)
+
+    model = Sequential()
+    model.add(Dense(9, input_dim=9, activation='relu'))
+    model.add(Dense(4, activation='relu'))
+    model.add(Dense(4, activation = 'softmax'))
+
+
+    # model = Sequential()
+    # model.add(Dense(18, input_dim=18, activation='relu'))
+    # model.add(layers.Dropout(0.5))
+    # model.add(Dense(8, activation='relu'))
+    # model.add(Dense(4, activation = 'softmax'))
+
+    # compile the keras model
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+
+
+[INFO] evaluating network...
+              precision    recall  f1-score   support
+
+           0       0.71      0.95      0.81      4329
+           1       0.96      0.77      0.85      3332
+           2       0.64      0.73      0.68      1053
+           3       0.79      0.14      0.24      1199
+
+    accuracy                           0.77      9913
+   macro avg       0.77      0.65      0.65      9913
+weighted avg       0.80      0.77      0.74      9913
+
+[[4111   11  176   31]
+ [ 635 2559  136    2]
+ [ 177   93  771   12]
+ [ 901    0  125  173]]

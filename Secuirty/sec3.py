@@ -235,13 +235,14 @@ print(dummy_y_Test)
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
 num_epochs=10
-batch_size=32
+batch_size=10
 def create_model():
 # define the keras model
     optimizer = SGD(lr=0.001)
 
     model = Sequential()
     model.add(Dense(9, input_dim=9, activation='relu'))
+    model.add(layers.Dropout(0.5))
     model.add(Dense(4, activation='relu'))
     model.add(Dense(4, activation = 'softmax'))
 
