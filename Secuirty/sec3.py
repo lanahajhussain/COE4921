@@ -240,21 +240,21 @@ def create_model():
 # define the keras model
     optimizer = SGD(lr=0.001)
 
-    model = Sequential()
-    model.add(Dense(18, input_dim=18, activation='relu'))
-    model.add(Dense(4, activation='relu'))
-    model.add(Dense(4, activation = 'softmax'))
-
-
     # model = Sequential()
-    # model.add(Dense(18, input_dim=18, activation='sigmoid'))
-    # model.add(layers.Dropout(0.5))
-    # model.add(Dense(8, activation='sigmoid'))
-    # model.add(Dense(4, activation = 'sigmoid'))
+    # model.add(Dense(18, input_dim=18, activation='relu'))
+    # model.add(Dense(4, activation='relu'))
     # model.add(Dense(4, activation = 'softmax'))
 
+
+    model = Sequential()
+    model.add(Dense(18, input_dim=18, activation='sigmoid'))
+    model.add(layers.Dropout(0.5))
+    model.add(Dense(8, activation='sigmoid'))
+    model.add(Dense(4, activation = 'sigmoid'))
+    model.add(Dense(4, activation = 'softmax'))
+
     # compile the keras model
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     return model
 model=create_model()
