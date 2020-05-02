@@ -203,6 +203,7 @@ print(Counter(Y_ov))
 under = RandomUnderSampler(sampling_strategy={0:5000,1:5000,2:5000}, random_state=1)
 X_new, Y_new = under.fit_resample(X_ov, Y_ov)
 
+print(Counter(Y_new))
 
 
 
