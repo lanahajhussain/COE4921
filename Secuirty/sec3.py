@@ -312,8 +312,8 @@ def create_model():
     # model.add(Dense(4, activation = 'softmax'))
 
     # compile the keras model
-     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-     return model
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    return model
 
 from keras.models import Sequential
 from keras.layers import Dense
