@@ -259,7 +259,7 @@ def create_model():
 
     return model
 model=create_model()
-history = model.fit( X_new,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+history = model.fit( X_train,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
