@@ -245,7 +245,7 @@ print(dummy_y_Test)
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
 num_epochs=30
-batch_size=48
+batch_size=10
 from keras.layers import Input, Dense
 
 from keras.models import Sequential
@@ -256,16 +256,14 @@ from keras.layers import MaxPooling1D
 from keras.layers import Flatten
 
 def create_modelCNN():
-    optimizer=SGD(lr=0.001)
    
-
     model = Sequential()
-    model.add(Conv1D(filters=2, kernel_size=1, activation='relu', input_shape=(1,18)))
+    model.add(Conv1D(filters=2, kernel_size=1, activation='sigmoid', input_shape=(1,18)))
     model.add(Dropout(0.5))
     model.add(Flatten())
-    model.add(Dense(100, activation='sigmoid'))
+    model.add(Dense(18, activation='sigmoid'))
     model.add(Dense(4, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     model.summary()
     return model
