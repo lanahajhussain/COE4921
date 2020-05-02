@@ -273,10 +273,12 @@ encoded_Y_test= encoder.transform(Y_test)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_Test = np_utils.to_categorical(encoded_Y_test)
 
-print(X_new)
-print(X_test_pca)
+
 print(dummy_y_train)
 print(dummy_y_Test)
+
+print('X_new',X_new)
+print('X_test_pca',X_test_pca)
 # ------------------------------------------------------------- #
 # ---------------------- Create Model ------------------------- #
 # ------------------------------------------------------------- #
