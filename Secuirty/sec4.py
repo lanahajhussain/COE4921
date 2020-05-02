@@ -139,9 +139,6 @@ df_intrusion_t.xAttack= [1 if each == "dos"
 
 # Create two pandas arrays -- one for X and one for Y to get ready 
 # for neural network
-data=((df_intrusion-df_intrusion.min())/(df_intrusion.max()-df_intrusion.min()))
-datat=((df_intrusion_t-df_intrusion_t.min())/(df_intrusion_t.max()-df_intrusion_t.min()))
-
 
 # convert the array into a numpy array
 arr_train = data.to_numpy()
@@ -149,11 +146,13 @@ arr_test = datat.to_numpy()
 
 # separate X and Y
 X_train = arr_train[:,0:18]
+X_train=np.linag.norm(X_train)
 Y_train = arr_train[:,18]
 
 
 # separate X and Y
 X_test = arr_test[:,0:18]
+X_test=np.linalg.norm(X_test)
 Y_test = arr_test[:,18]
 
 # # ------------------------------------------------------------- #
@@ -248,7 +247,7 @@ def create_modelCNN():
    
 
     model = Sequential()
-    model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(9)))
+    model.add(Conv1D(filters=2, kernel_size=3, activation='relu', input_shape=(100,9)))
     model.add(Dropout(0.5))
     model.add(MaxPooling1D(pool_size=2))
     model.add(Flatten())
