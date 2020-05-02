@@ -297,7 +297,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 matrix = confusion_matrix(dummy_y_Test.argmax(axis=1), predictions.argmax(axis=1))
-print(dummy_y_Test.argmax(axis=1)
+print(dummy_y_Test.argmax(axis=1))
+
 print(predictions.argmax(axis=1))
 
 
