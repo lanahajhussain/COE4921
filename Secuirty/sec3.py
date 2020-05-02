@@ -199,9 +199,9 @@ sm = SMOTE(sampling_strategy={3:10000}, random_state=1)
 X_ov,Y_ov=sm.fit_resample(X_train, Y_train)
 print(Counter(Y_ov))
 
-under = RandomUnderSampler(sampling_strategy={0:10000,1:10000,2:10000}, random_state=1)
-X_new, Y_new = under.fit_resample(X_ov, Y_ov)
-print(Counter(Y_new))
+# under = RandomUnderSampler(sampling_strategy={0:10000,1:10000,2:10000}, random_state=1)
+# X_new, Y_new = under.fit_resample(X_ov, Y_ov)
+# print(Counter(Y_new))
 
 # oversample = RandomOverSampler(sampling_strategy=0.1, random_state=1)
 # X_new, Y_new = oversample.fit_resample(X_ov, Y_ov)
@@ -216,8 +216,8 @@ from keras.utils import np_utils
 
 # encode class values as integers
 encoder = LabelEncoder()
-encoder.fit(Y_new)
-encoded_Y_train= encoder.transform(Y_new)
+encoder.fit(Y_ov)
+encoded_Y_train= encoder.transform(Y_ov)
 # convert integers to dummy variables (i.e. one hot encoded)
 dummy_y_train = np_utils.to_categorical(encoded_Y_train)
 
@@ -259,7 +259,7 @@ def create_model():
 
     return model
 model=create_model()
-history = model.fit(X_new,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
+history = model.fit(X_ov,dummy_y_train, validation_split=0.25, epochs=num_epochs, batch_size=batch_size, verbose=1)
 
 # ------------------------------------------------------------- #
 # ----------------- Model Visualization------------------------ #
