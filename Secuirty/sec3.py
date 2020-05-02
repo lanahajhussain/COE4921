@@ -290,7 +290,7 @@ def create_model():
     # model.add(Dense(4, activation='sigmoid'))
     # model.add(Dense(4, activation = 'softmax'))
     encoding_dim = 36  # 32 floats -> compression of factor 24.5, assuming the input is 784 floats
-    input_data = Input(shape=(18,))
+    input_data = Input(shape=(9,))
     encoded = Dense(encoding_dim, activation='relu')(input_data)
     decoded = Dense(9, activation='sigmoid')(encoded)
     autoencoder = Model(input_data, decoded)
