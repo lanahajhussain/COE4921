@@ -1,0 +1,28 @@
+num_epochs=15
+batch_size=10
+def create_model():
+# define the keras model
+    optimizer = SGD(lr=0.001)
+
+    model = Sequential()
+    model.add(Dense(9, input_dim=9, activation='tanh'))
+    # model.add(layers.Dropout(0.5))
+    model.add(Dense(4, activation='tanh'))
+    model.add(Dense(4, activation = 'softmax'))
+
+[INFO] evaluating network...
+              precision    recall  f1-score   support
+
+           0       0.70      0.92      0.79      4329
+           1       0.90      0.78      0.83      3332
+           2       0.73      0.70      0.72      1053
+           3       0.74      0.22      0.34      1199
+
+    accuracy                           0.76      9913
+   macro avg       0.77      0.65      0.67      9913
+weighted avg       0.78      0.76      0.74      9913
+
+[[3970  123  172   64]
+ [ 676 2584   72    0]
+ [ 169  117  739   28]
+ [ 866   40   25  268]]
