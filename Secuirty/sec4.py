@@ -206,7 +206,7 @@ print(Counter(Y_new))
 # # ------------------------------------------------------------- #
 # # ---------------------- Encoding Data ------------------------- #
 # # ------------------------------------------------------------- #
-Prepare Y values for one-hot encoding
+# Prepare Y values for one-hot encoding
 
 from sklearn.preprocessing import LabelEncoder
 from keras.utils import np_utils
